@@ -10,15 +10,13 @@ namespace EvoLib
 {
     public class Cell
     {
-        private Grid grid;
         public MPoint point { get; private set; }
         public CellContentType content { get; private set; }
         //private Bot bot;
 
 
-        public Cell(Grid _grid, int x, int y)
+        public Cell(int x, int y)
         {
-            grid = _grid;
             point = new MPoint(x, y);
             content = CellContentType.EMPTY;
             //bot = null;
@@ -34,6 +32,16 @@ namespace EvoLib
             }
             
             return false;
+        }
+
+        public void Clear()
+        {
+            if (content != CellContentType.WALL)
+            {
+                content = CellContentType.EMPTY;
+            }
+
+            return;
         }
 
 

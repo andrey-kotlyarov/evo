@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using EvoLib;
 
 
+
 namespace EvoApp
 {
     public partial class Form1 : Form
@@ -18,15 +19,33 @@ namespace EvoApp
         public Form1()
         {
             InitializeComponent();
+
+            Grid.CurrentGrid.CreateGrid();
         }
+
+
+        //Grid grid = new Grid();
+
 
         private void btnTest_Click(object sender, EventArgs e)
         {
             //txtTest.Text = "btnTest_Click\r\n1\r\n2\r\n3";
+            
 
-            Grid grid = new Grid();
-            //txtTest.Text = grid.ToString();
-            txtTest.Text = grid.ToMonoString();
+            txtTest.Text = Grid.CurrentGrid.ToString();
+            //txtTest.Text = Grid.CurrentGrid.ToMonoString();
+        }
+
+        private void btnNextGeneration_Click(object sender, EventArgs e)
+        {
+            Grid.CurrentGrid.NextGeneration();
+            txtTest.Text = Grid.CurrentGrid.ToMonoString();
+        }
+
+        private void btnNextIteration_Click(object sender, EventArgs e)
+        {
+            Grid.CurrentGrid.NextIteration();
+            txtTest.Text = Grid.CurrentGrid.ToMonoString();
         }
     }
 }

@@ -10,21 +10,36 @@ namespace EvoLib
 {
     public class Grid
     {
-        private Cell[,] cells;
-        private List<Bot> bots;
+        private static Grid instance = null;
 
-
-        public Grid()
+        public static Grid CurrentGrid
         {
-            createCells();
-            createBots();
-            createFood();
-            createToxin();
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Grid();
+                }
 
-            return;
+                return instance;
+            }
         }
 
-        private void createCells()
+
+
+        public Cell[,] cells { get; private set; }
+        private Dictionary<int, Generation> generations = new Dictionary<int, Generation>();
+        private Generation generation = null;
+
+        //private List<Bot> bots;
+
+        
+        private Grid() { }
+
+        
+
+
+        public void CreateGrid()
         {
             cells = new Cell[Const.GRID_SIZE_X, Const.GRID_SIZE_Y];
 
@@ -32,7 +47,7 @@ namespace EvoLib
             {
                 for (int y = 0; y < Const.GRID_SIZE_Y; y++)
                 {
-                    cells[x, y] = new Cell(this, x, y);
+                    cells[x, y] = new Cell(x, y);
 
                     if (x == 0 || x == (Const.GRID_SIZE_X - 1) || y == 0 || y == (Const.GRID_SIZE_Y - 1))
                     {
@@ -48,68 +63,44 @@ namespace EvoLib
                     {
                         cells[x, y].SetContent(CellContentType.WALL);
                     }
+                }
+            }
 
+            NextGeneration();
+        }
+
+        private void clearGrid()
+        {
+            for (int x = 0; x < Const.GRID_SIZE_X; x++)
+            {
+                for (int y = 0; y < Const.GRID_SIZE_Y; y++)
+                {
+                    cells[x, y].Clear();
                 }
             }
         }
 
-
-        private void createBots()
+        public void NextGeneration()
         {
-            bots = new List<Bot>();
-            
-            int x;
-            int y;
+            clearGrid();
 
-            for (int i = 0; i < Const.BOT_COUNT_MAX; i++)
-            {
-                do
-                {
-                    x = MRandom.Next(1, Const.GRID_SIZE_X - 2);
-                    y = MRandom.Next(1, Const.GRID_SIZE_Y - 2);
-                } while (cells[x, y].content != CellContentType.EMPTY);
+            /*
+            int num = (generation == null ? 1 : generation.num + 1);
+            generation = new Generation(num);
+            generations.Add(num, generation);
+            */
+            generation = new Generation(generation);
+            generations.Add(generation.num, generation);
 
-                Bot bot = new Bot(this, x, y);
-                bots.Add(bot);
-
-                cells[x, y].SetContent(CellContentType.BOT);
-            }
+            return;
         }
 
-
-        private void createFood()
+        public void NextIteration()
         {
-            int x;
-            int y;
-
-            for (int i = 0; i < Const.FOOD_COUNT; i++)
-            {
-                do
-                {
-                    x = MRandom.Next(1, Const.GRID_SIZE_X - 2);
-                    y = MRandom.Next(1, Const.GRID_SIZE_Y - 2);
-                } while (cells[x, y].content != CellContentType.EMPTY);
-
-                cells[x, y].SetContent(CellContentType.FOOD);
-            }
+            generation.NextIteration();
+            return;
         }
-
-        private void createToxin()
-        {
-            int x;
-            int y;
-
-            for (int i = 0; i < Const.TOXIN_COUNT; i++)
-            {
-                do
-                {
-                    x = MRandom.Next(1, Const.GRID_SIZE_X - 2);
-                    y = MRandom.Next(1, Const.GRID_SIZE_Y - 2);
-                } while (cells[x, y].content != CellContentType.EMPTY);
-
-                cells[x, y].SetContent(CellContentType.TOXIN);
-            }
-        }
+        
 
 
 
@@ -118,6 +109,9 @@ namespace EvoLib
         public string ToMonoString()
         {
             string desc = "";
+
+            desc += "GENERATION: " + generation.num;
+            desc += "; ITERATION: " + generation.iteration;
 
             for (int y = 0; y < Const.GRID_SIZE_Y; y++)
             {
@@ -142,7 +136,6 @@ namespace EvoLib
                     }
                     if (cells[x, y].content == CellContentType.BOT)
                     {
-                        //desc += "B";
                         desc += "B";
                     }
                 }
@@ -155,6 +148,37 @@ namespace EvoLib
         {
             string desc = base.ToString();
 
+            desc += "GENERATION: " + generation.num;
+            desc += "; ITERATION: " + generation.iteration;
+
+            for (int y = 0; y < Const.GRID_SIZE_Y; y++)
+            {
+                desc += "\r\n";
+                for (int x = 0; x < Const.GRID_SIZE_X; x++)
+                {
+                    if (cells[x, y].content == CellContentType.EMPTY)
+                    {
+                        desc += " ";
+                    }
+                    if (cells[x, y].content == CellContentType.WALL)
+                    {
+                        desc += "X";
+                    }
+                    if (cells[x, y].content == CellContentType.FOOD)
+                    {
+                        desc += "F";
+                    }
+                    if (cells[x, y].content == CellContentType.TOXIN)
+                    {
+                        desc += "T";
+                    }
+                    if (cells[x, y].content == CellContentType.BOT)
+                    {
+                        desc += "B";
+                    }
+                }
+            }
+            /*
             desc += "\r\n\r\nCELLS";
             for (int x = 0; x < Const.GRID_SIZE_X; x++)
             {
@@ -164,9 +188,10 @@ namespace EvoLib
                     desc += cells[x, y].ToString();
                 }
             }
+            */
 
             desc += "\r\n\r\nBOTS";
-            foreach (Bot bot in bots)
+            foreach (Bot bot in generation.bots)
             {
                 desc += "\r\n";
                 desc += bot.ToString();

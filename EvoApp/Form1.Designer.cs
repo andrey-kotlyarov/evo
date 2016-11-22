@@ -31,6 +31,8 @@
             this.btnTest = new System.Windows.Forms.Button();
             this.txtTest = new System.Windows.Forms.TextBox();
             this.bwGrid = new System.ComponentModel.BackgroundWorker();
+            this.btnNextGeneration = new System.Windows.Forms.Button();
+            this.btnNextIteration = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnTest
@@ -54,11 +56,33 @@
             this.txtTest.Size = new System.Drawing.Size(823, 495);
             this.txtTest.TabIndex = 1;
             // 
+            // btnNextGeneration
+            // 
+            this.btnNextGeneration.Location = new System.Drawing.Point(841, 43);
+            this.btnNextGeneration.Name = "btnNextGeneration";
+            this.btnNextGeneration.Size = new System.Drawing.Size(75, 23);
+            this.btnNextGeneration.TabIndex = 2;
+            this.btnNextGeneration.Text = "Next Gen";
+            this.btnNextGeneration.UseVisualStyleBackColor = true;
+            this.btnNextGeneration.Click += new System.EventHandler(this.btnNextGeneration_Click);
+            // 
+            // btnNextIteration
+            // 
+            this.btnNextIteration.Location = new System.Drawing.Point(841, 73);
+            this.btnNextIteration.Name = "btnNextIteration";
+            this.btnNextIteration.Size = new System.Drawing.Size(75, 23);
+            this.btnNextIteration.TabIndex = 3;
+            this.btnNextIteration.Text = "Next Iter";
+            this.btnNextIteration.UseVisualStyleBackColor = true;
+            this.btnNextIteration.Click += new System.EventHandler(this.btnNextIteration_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(928, 520);
+            this.Controls.Add(this.btnNextIteration);
+            this.Controls.Add(this.btnNextGeneration);
             this.Controls.Add(this.txtTest);
             this.Controls.Add(this.btnTest);
             this.Name = "Form1";
@@ -73,6 +97,8 @@
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.TextBox txtTest;
         private System.ComponentModel.BackgroundWorker bwGrid;
+        private System.Windows.Forms.Button btnNextGeneration;
+        private System.Windows.Forms.Button btnNextIteration;
     }
 }
 
