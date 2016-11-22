@@ -142,6 +142,7 @@ namespace EvoLib
                     }
                     if (cells[x, y].content == CellContentType.BOT)
                     {
+                        //desc += "B";
                         desc += "B";
                     }
                 }
