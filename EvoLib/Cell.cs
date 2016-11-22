@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EvoLib
 {
-    class Cell
+    public class Cell
     {
     }
 }
