@@ -10,5 +10,8 @@ namespace EvoLib
 {
     public class Grid
     {
+        private List<Cell> cells = new List<Cell>();
+
+
     }
 }
