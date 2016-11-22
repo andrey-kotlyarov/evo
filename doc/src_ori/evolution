@@ -1,0 +1,112 @@
+include "constant" 
+include "paint" 
+include "info" 
+include "bio-class"
+
+ bios=new( MAX_BIOS_COUNT , BIO_SIZE ,INT16)
+   eld=new( END_BIOS_LIVE ,1,INT16)
+   infoText=new(10,1,INT32)
+   graf0=new(6000,1,INT32)
+   bat=0
+agn:
+   clear()   
+   showAble=0
+   GNR=0
+   steps=0
+   bio_live=MAX_BIOS_COUNT
+   clean(graf0,800000)
+   rand_seed( get_seconds())
+   clean(infoText)
+  
+//-----------------------------------
+   i=0
+  while i< MAX_BIOS_COUNT
+  {
+    bio_generateMind( i )
+    bios[i,ADR]=0
+    bios[i,HEALTH]=35
+    bios[i,GENER]=1
+    bios[i,C_BLUE]=255  
+    bios[i,C_GREEN]=0
+    bios[i,TRANSF ]=rand() div 4681
+    i=i+1
+  }
+ //=============================================
+   Setka()
+  FoodPlace(FOOD)
+  YadPlace(YAD)
+  BiosPlace()
+  frame(500)
+l:
+      i=0
+again:
+      bio_step(i)
+      i=i+1
+      if (i== MAX_BIOS_COUNT )
+        { i=0   
+          steps=steps+1 
+          if ( showAble==1 )  { infoStep()  frame()  }
+          
+            while( get_event() ) 
+             {  
+    	           if EVT[ EVT_TYPE ] == EVT_MOUSEBUTTONDOWN
+		            {
+					  rand_seed( get_seconds())
+ 		              if (showAble==0) { showAble=1 }
+ 		              else { showAble=0 }
+                    }
+                if EVT[ EVT_TYPE ] == EVT_QUIT  { halt } 
+             }              
+        }
+     if (bio_live> END_BIOS_LIVE ){ go again }
+     findEld()
+     info()
+     infoLast(steps)  
+     
+     graf0[GNR,0]=steps
+     GNR=GNR+1
+     if (GNR==6000|| steps>grafTOP) 
+          {  go  grafik  }
+    
+     frame(DELAY)
+//------------------------------------------------------------------
+
+ bio_live= MAX_BIOS_COUNT
+ steps=0    
+     
+ ss=0
+ while(ss< END_BIOS_LIVE)
+   {
+      bio_child(ss)
+      ss=ss+1 
+   }
+  Setka()
+  FoodPlace(FOOD)
+  YadPlace(YAD)
+  BiosPlace()
+  if ( showAble==1 ) { frame() }
+  go l
+
+
+grafik:
+if ( bat==0 ) 
+    { save(graf0,"graf01.g",FORMAT_PIXICONTAINER) 
+      bat=bat+1 
+      go agn
+	}
+if ( bat==1 ) 
+    { save(graf0,"graf02.g",FORMAT_PIXICONTAINER) 
+      bat=bat+1 
+      go agn
+	}
+if ( bat==2 ) 
+    { save(graf0,"graf03.g",FORMAT_PIXICONTAINER) 
+      bat=bat+1 
+      go agn
+	}
+if ( bat==3 ) 
+    { save(graf0,"graf04.g",FORMAT_PIXICONTAINER)
+      halt 
+	}
+
+//==================================================================================

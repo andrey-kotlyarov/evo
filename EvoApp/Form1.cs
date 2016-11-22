@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using EvoLib;
+
+
 namespace EvoApp
 {
     public partial class Form1 : Form
@@ -15,6 +18,15 @@ namespace EvoApp
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            //txtTest.Text = "btnTest_Click\r\n1\r\n2\r\n3";
+
+            Grid grid = new Grid();
+            //txtTest.Text = grid.ToString();
+            txtTest.Text = grid.ToMonoString();
         }
     }
 }

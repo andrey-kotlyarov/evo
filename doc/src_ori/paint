@@ -1,0 +1,149 @@
+
+   
+ // берёт число возврат-строка
+fn n2s( $n )
+ {
+  $s=""
+  num2str( $s, $n )
+  ret( $s)
+ } 
+  
+  
+ fn GetX($x)
+  {    ret( ($x*16)-389) }
+  
+ fn GetY($y)
+  {    ret(($y*16)-209)}
+  
+  fn SetLand($x,$y)
+    { fbox(GetX($x),GetY($y),15,15,#555555)}
+    
+   fn SetFood($x,$y)
+    { fbox(GetX($x),GetY($y),15,15,#00aa00)}  
+     
+   fn SetYad($x,$y)
+    { fbox(GetX($x),GetY($y),15,15,#ff0000)}   
+    
+   fn SetEmpty($x,$y)
+    { fbox(GetX($x),GetY($y),15,15,#000000)}
+//-------------------------------------
+   fn generateX()
+    {
+      $n= rand() div 762
+      ret($n+1) 
+    }
+//-------------------------------------
+  fn generateY()
+    {
+      $n= rand() div 1489
+      ret($n+1)
+    }
+//-------------------------------------    
+//////////////////   РИСУЕМ КАРКАС МИРА ///////////////////////////////////
+ fn Setka()
+  {      fbox( -390,-210,720,384,BLACK)
+    $x=-390 
+    while($x<331)
+       { line($x,-210,$x,174,#999999)  $x=$x+16}
+    $y=-210
+    while($y<175)
+       { line(-390,$y,330,$y,#999999)    $y=$y+16}  
+    $x=0 $y=0
+    while ($x<45)
+       {  SetLand($x,$y)   SetLand($x,$y+23)  $x=$x+1  } 
+    $x=0 $y=1
+    while ($y<23)
+       {  SetLand($x,$y)   SetLand($x+44,$y)  $y=$y+1  } 
+       $x=9 $y=1
+    while ($y<8)
+       {  SetLand($x,$y)   SetLand($x+11,15-$y)  $y=$y+1  }   
+       
+   }
+  
+//-------  РИСУЕМ ЕДУ   --------------------
+
+  fn FoodPlace ( $count )
+  {
+   $i=0
+   while ( $i< $count )
+     {
+      $x= generateX()      $y= generateY()
+      if (if_some_there($x,$y)==4)
+        { SetFood($x,$y)    $i=$i+1  }
+     }
+   }
+
+//-----  РИСУЕМ ЯД   -----------------------
+  fn YadPlace( $count )
+  {
+   $i=0
+   while ( $i< $count )
+     {
+      $x= generateX()      $y= generateY()
+      if (if_some_there($x,$y)==4)
+        { SetYad($x,$y)    $i=$i+1  }
+     }
+   }
+//-----  РИСУЕМ ЕДУ ИЛИ ЯД   -----------------------
+  fn FoodYadPlace( )
+  {
+       $n= mod(rand(),FOODYAD)
+       if ($n==0) {  YadPlace(1)  }
+          else    {  FoodPlace(1) }     
+   }
+//----------------  РИСУЕМ БИО  ------------------------
+  fn  BiosPlace()
+   {
+     $i=0
+     while ( $i< MAX_BIOS_COUNT )
+       {
+         $x= generateX()
+         $y= generateY()
+         if (if_some_there($x,$y)==4)
+          {
+            bios[$i,X_COORD]=$x
+            bios[$i,Y_COORD]=$y
+            bio_show( $i )
+            $i=$i+1
+          }
+       }   
+  }
+  
+// --  есть ли что-то там   --------------------
+// in -  координата Х, координата У  -----------
+// out - 4 если пусто
+//       3 если еда
+//       2 если сородич
+//       1 если стена
+//       0 если яд
+
+   fn if_some_there( $x, $y )
+   {
+     $color=get_dot(GetX($x)+1,GetY($y)+1)
+         if ( $color==#ff0000 ) { ret(0) }  
+         if ( $color==#555555 ) { ret(1) }
+         if ( $color==#00aa00 ) { ret(3) }
+         if ( $color==#000000 ) { ret(4) }
+          ret(2) 
+   }
+   
+ 
+ //------------------ находим живых, заполняем массив eld-----------------------    
+  fn findEld()
+    {     $i=0  $k=0
+     while ( $i< MAX_BIOS_COUNT )
+       {  if ( bios[$i, HEALTH]>0 ) { eld[$k,0]=$i  $k=$k+1 }
+          $i=$i+1  }
+    }
+    
+ //-----==========------------------------------------------
+ fn findDead()
+   { $i=0
+     while ($i< MAX_BIOS_COUNT )
+      {
+        if ( bios[$i,HEALTH]<=0 )  { break }
+        $i=$i+1
+      } 
+     ret($i)
+   }
+ 

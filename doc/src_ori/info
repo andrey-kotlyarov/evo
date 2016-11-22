@@ -1,0 +1,80 @@
+ 
+ fn infoLast($z)  
+  {
+    infoText[9,0]= infoText[8,0] infoText[8,0]= infoText[7,0] 
+    infoText[7,0]= infoText[6,0] infoText[6,0]= infoText[5,0]
+    infoText[5,0]= infoText[4,0] infoText[4,0]= infoText[3,0] 
+    infoText[3,0]= infoText[2,0] infoText[2,0]= infoText[1,0] 
+    infoText[1,0]= infoText[0,0] infoText[0,0]= $z
+    fbox(334,-200,60,180,#003300)
+    $i=0
+    while $i<10
+    {
+      print(n2s( infoText[$i,0] ), 364, -190+$i*16 )
+      $i=$i+1
+    }
+  }
+   
+   
+ fn infoStep()
+   {
+      fbox(-340,205,50,10,BLACK)
+     print(n2s(steps),-315,210)
+   }
+  
+ fn info()
+ {
+     fbox(-340,180,50,10,BLACK)
+     print(n2s(steps),-315,185)
+     
+     $i=0
+     $x=-280
+     while ( $i< END_BIOS_LIVE )
+      {
+        $q=eld[$i,0]
+        $color= get_color( 0, bios[$q,C_GREEN], bios[$q,C_BLUE] )
+        fbox($x,180,26,40, $color)
+        print(n2s(bios[$q, HEALTH]),$x+13,191)    
+        print(n2s(bios[$q, GENER ]),$x+13,211) 
+        $i=$i+1
+        $x=$x+30
+       }
+
+       $x=$x+30
+     
+       fbox($x,180,200,20,#333300)
+      print(n2s(GNR+1),$x+100,190) 
+ }
+ 
+ fn grafik_fon($GNR,$grafTop)
+  {
+    line(-350,190,400,190,#006600)
+
+     $zz=170   $nn=20*$grafTop
+    while ($zz>-240)
+     {
+       line(-350,$zz,400,$zz,#006600)
+       print(n2s($nn),-375,$zz,#00aa00)
+       $nn=$nn+20*$grafTop
+       $zz=$zz-20
+     }
+
+     $dsd=50 $zz=-350  $nn=0
+       while ($zz<400)
+        {
+          line($zz,190,$zz,-240,#006600)
+          print(n2s($nn),$zz,198,#00aa00)
+          $nn=$nn+200
+          $zz=$zz+$dsd
+        }
+  }
+
+
+ fn dbg1($n)
+   {    print(n2s( $n ),340, ttt)    ttt=ttt+10    }
+ fn dbg2($n)
+   {    print(n2s( $n ),360, ttt)    ttt=ttt+10    }   
+ fn dbg3($n)
+   {    print(n2s( $n ),380, ttt)    ttt=ttt+10    }    
+ fn dbgClr()
+   {  fbox(330,-210,70,380 , BLACK)    ttt=-200 }

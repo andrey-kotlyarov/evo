@@ -1,0 +1,86 @@
+﻿STARTPOINT=0                // откуда начать
+MASTAB=8                    // маштаб по горизонтали 1- каждый, 2 - каждую 2  и тд 
+                            // график имеет ширину 750 пикселей, 
+							// при MASTAB=8 отобразятся 750*8=6000 поколений
+UP_TO= 100000               // предпологаемый верхний ряд по вертикали
+file2view="graf01.g"
+ 
+
+STOPPOINT=STARTPOINT+750*MASTAB
+UPTO=UP_TO div 400   
+
+// берёт число возврат-строка-------------
+fn n2s( $n )
+ {
+  $s=""
+  num2str( $s, $n )
+  ret( $s)
+ } 
+//----------------------------------------
+
+   grafDAT=new(6000,1,INT32)
+   grafDOT= new(750,1,INT32)
+   grafLIN=new(750,1,INT32)
+                        
+grafDAT=load(file2view)
+
+//================  рисуем фон  ===========
+    line(-350,200,400,200,#006600)
+
+     zz=180  nn=20*UPTO
+    while (zz>-240)
+     {
+       line(-350,zz,400,zz,#006600)
+       print(n2s(nn),-375,zz,#00aa00)
+       nn=nn+20*UPTO
+       zz=zz-20
+     }
+
+      zz=-350  nn=STARTPOINT
+       while (zz<400)
+        {
+          line(zz,200,zz,-220,#006600)
+          print(n2s(nn),zz,210,#00aa00)
+          nn=nn+50*MASTAB
+          zz=zz+50
+        }
+//===================  рисуем точки  ========
+  copy(grafDOT,grafDAT,0,STARTPOINT,750,1,MASTAB ) 
+   
+    gr=0
+    while (gr<750)
+      {
+        dd= grafDOT[gr,0] div UPTO
+        dot(gr-350, 200-dd, WHITE)
+        gr=gr+1
+      }
+
+//-------------------- рисуем кривую ---------
+grafLIN[0,0]=(grafDOT[0,0]+grafDOT[1,0]+grafDOT[2,0]) div 3
+grafLIN[1,0]=grafLIN[0,0]   grafLIN[2,0]=grafLIN[1,0]
+
+grafLIN[749,0]=(grafDOT[749,0]+grafDOT[748,0]+grafDOT[747,0]) div 3
+grafLIN[748,0]=grafLIN[749,0]  grafLIN[747,0]=grafLIN[749,0]
+
+     gr=3   
+   while (gr < 747)
+   {
+     grafLIN[gr,0]=( grafDOT[gr-3,0] + grafDOT[gr-2,0] + grafDOT[gr-1,0] + grafDOT[gr,0] + grafDOT[gr+1,0] + grafDOT[gr+2,0] + grafDOT[gr+3,0] ) div 7
+     gr=gr+1
+   }
+
+      gr=0
+    while (gr < 749)
+      {
+        dd1=grafLIN[gr  ,0] div UPTO
+        dd2=grafLIN[gr+1,0] div UPTO
+        line(gr-350,200-dd1,gr-349,200-dd2,WHITE)
+        gr=gr+1
+      }      
+//-----------------------------
+  frame()
+   yy:
+       while( get_event() ) 
+             {   if EVT[ EVT_TYPE ] == EVT_QUIT  { halt }   }     
+   go yy 
+
