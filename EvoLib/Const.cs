@@ -51,7 +51,13 @@ C_GREEN= MIND_SIZE+6 // цвет
         public const int BOT_COUNT_MAX = 64;
         public const int BOT_COUNT_MIN = 8;
 
-        public const int BOT_PROGRAM_SIZE = 64;
+        public const byte BOT_PROGRAM_SIZE = 64;
+        public const int BOT_PROGRAM_STEP_MAX = 10;
+
+        public const int BOT_HEALTH_MAX = 90;
+        public const int BOT_HEALTH_FOOD = 10;
+        public const int BOT_HEALTH_BIRTH = 35;
+
 
         public const int FOOD_COUNT = 60;
         public const int TOXIN_COUNT = 60;

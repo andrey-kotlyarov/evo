@@ -66,7 +66,7 @@ namespace EvoLib
                 }
             }
 
-            NextGeneration();
+            nextGeneration();
         }
 
         private void clearGrid()
@@ -80,15 +80,10 @@ namespace EvoLib
             }
         }
 
-        public void NextGeneration()
+        private void nextGeneration()
         {
             clearGrid();
 
-            /*
-            int num = (generation == null ? 1 : generation.num + 1);
-            generation = new Generation(num);
-            generations.Add(num, generation);
-            */
             generation = new Generation(generation);
             generations.Add(generation.num, generation);
 
@@ -97,7 +92,20 @@ namespace EvoLib
 
         public void NextIteration()
         {
-            generation.NextIteration();
+            if (generation.NeedNextIteration())
+            { 
+                generation.NextIteration();
+                //TODO
+                //SEND EVENT NEXT ITERATION
+            }
+            else
+            {
+                nextGeneration();
+                //TODO
+                //SEND EVENT NEXT GENERATION
+            }
+
+
             return;
         }
         

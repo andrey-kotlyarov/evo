@@ -36,11 +36,7 @@ namespace EvoApp
             //txtTest.Text = Grid.CurrentGrid.ToMonoString();
         }
 
-        private void btnNextGeneration_Click(object sender, EventArgs e)
-        {
-            Grid.CurrentGrid.NextGeneration();
-            txtTest.Text = Grid.CurrentGrid.ToMonoString();
-        }
+        
 
         private void btnNextIteration_Click(object sender, EventArgs e)
         {

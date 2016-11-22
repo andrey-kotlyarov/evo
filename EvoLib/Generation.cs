@@ -93,6 +93,15 @@ namespace EvoLib
 
 
 
+        public bool NeedNextIteration()
+        {
+            //DEBUG
+            //return iteration < 5;
+
+            return (bots.Count > Const.BOT_COUNT_MIN);
+        }
+
+
         public void NextIteration()
         {
             iteration++;
