@@ -62,7 +62,7 @@ namespace EvoLib
 
             while (step < Const.BOT_PROGRAM_STEP_MAX)
             {
-                doCommand();
+                step += doCommand();
             }
 
             iteration += 1;
