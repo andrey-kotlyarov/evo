@@ -36,7 +36,7 @@ namespace EvoApp
 
 
             loadControls();
-            updateControls();
+            updateControlsGen();
 
             
         }
@@ -45,19 +45,11 @@ namespace EvoApp
         {
             _pbGridBufferGraphics.Dispose();
         }
-
-        /*
-        private void FormEvo_Paint(object sender, PaintEventArgs e)
-        {
-            Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
-            //e.Graphics.DrawLine(pen, 20, 10, 300, 100);
-
-            e.Graphics.DrawLine(pen, this.Width, this.Height, 300, 100);
-        }
-        */
+        
 
         private void loadControls()
         {
+            selDelay.Items.Add("1");
             selDelay.Items.Add("10");
             selDelay.Items.Add("20");
             selDelay.Items.Add("30");
@@ -66,7 +58,7 @@ namespace EvoApp
             selDelay.Items.Add("200");
             selDelay.Items.Add("500");
 
-            selDelay.SelectedIndex = 3;
+            selDelay.SelectedIndex = 4;
 
             cbIterEnabled.Checked = true;
 
@@ -75,21 +67,63 @@ namespace EvoApp
 
         }
 
-        private void updateControls()
-        {
-            lblGen.Text = Grid.CurrentGrid.generation.num.ToString();
-            lblIter.Text = Grid.CurrentGrid.generation.iteration.ToString();
 
+        private void updateControlsIter()
+        {
+            lblIter.Text = Grid.CurrentGrid.generation.iteration.ToString();
             drawGrid();
         }
 
-        
+        private void updateControlsGen()
+        {
+            lblGen.Text = Grid.CurrentGrid.generation.num.ToString();
+
+            string lastIter = "";
+
+            for (int i = Grid.CurrentGrid.generation.num - 1; i >= Math.Max(0, Grid.CurrentGrid.generation.num - 32); i--)
+            {
+                lastIter += (lastIter.Length == 0 ? "" : "\r\n");
+                lastIter += Grid.CurrentGrid.generations[i].iteration.ToString();
+            }
+
+
+
+
+            txtIter.Text = lastIter;
+
+            updateControlsIter();
+        }
+
+
 
         private void drawGrid()
         {
+            
+            Color colorGrid = Color.DarkGray;
+            Brush brushWall = Brushes.Maroon;
+            Brush brushEmpty = Brushes.LightGray;
+            Brush brushBot = Brushes.Navy;
+            Brush brushFood = Brushes.Green;
+            Brush brushToxin = Brushes.OrangeRed;
+
+            Font fontBot = new Font(FontFamily.GenericSansSerif, 6.0F, FontStyle.Regular);
+            Brush brushFont = Brushes.White;
+
+            Font fontBot2 = new Font(FontFamily.GenericSansSerif, 5.0F, FontStyle.Bold);
+            Brush brushFont2 = Brushes.Yellow;
+
             Graphics g = _pbGridBufferGraphics.Graphics;
 
-            g.Clear(Color.Gray);
+
+
+
+            g.Clear(colorGrid);
+
+
+            
+
+
+
 
             //int it = Grid.CurrentGrid.generation.iteration;
             Cell[,] cells = Grid.CurrentGrid.cells;
@@ -100,38 +134,44 @@ namespace EvoApp
             {
                 for (int x = 0; x < Const.GRID_SIZE_X; x++)
                 {
-                    int px = x * size;
-                    int py = y * size;
+                    int px = x * size + 1;
+                    int py = y * size + 1;
 
-                    Rectangle r = new Rectangle(px - 1, py - 1, size - 2, size - 2);
+                    Rectangle r = new Rectangle(px + 1, py + 1, size - 2, size - 2);
+                    Rectangle rc = new Rectangle(px + 3, py + 3, size - 6, size - 6);
+
 
                     if (cells[x, y].content == CellContentType.EMPTY)
                     {
-                        g.FillRectangle(Brushes.DarkGray, r);
+                        g.FillRectangle(brushEmpty, r);
                     }
                     if (cells[x, y].content == CellContentType.WALL)
                     {
-                        g.FillRectangle(Brushes.Black, r);
+                        g.FillRectangle(brushWall, r);
                     }
                     if (cells[x, y].content == CellContentType.FOOD)
                     {
-                        g.FillRectangle(Brushes.Green, r);
+                        g.FillRectangle(brushEmpty, r);
+                        g.FillEllipse(brushFood, rc);
                     }
                     if (cells[x, y].content == CellContentType.TOXIN)
                     {
-                        g.FillRectangle(Brushes.Red, r);
+                        g.FillRectangle(brushEmpty, r);
+                        g.FillEllipse(brushToxin, rc);
                     }
                     if (cells[x, y].content == CellContentType.BOT)
                     {
-                        g.FillRectangle(Brushes.Blue, r);
+                        g.FillRectangle(brushBot, r);
+
+                        Bot bot = Grid.CurrentGrid.GetBot(cells[x, y]);
+                        g.DrawString(bot.health.ToString(), fontBot, brushFont, px + 1, py + 2);
+                        g.DrawString(bot.age.ToString(), fontBot2, brushFont2, px + 10, py + 12);
+
                     }
                 }
             }
 
-
-            //g.DrawEllipse(Pens.Blue, pbGrid.DisplayRectangle);
-            //g.DrawRectangle(Pens.Gold, 10, 10, it * 4, it * 2);
-            //g.FillRectangle(Brushes.Violet, 12, 12, it * 4 - 4, it * 2 - 4);
+            
 
 
             //_pbGridBufferGraphics.Render();
@@ -212,7 +252,7 @@ namespace EvoApp
             this.InvokeEx(
                 () =>
                 {
-                    updateControls();
+                    updateControlsIter();
                 }
             );
         }
@@ -222,7 +262,7 @@ namespace EvoApp
             this.InvokeEx(
                 () =>
                 {
-                    updateControls();
+                    updateControlsGen();
                 }
             );
         }

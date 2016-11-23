@@ -52,6 +52,7 @@ C_GREEN= MIND_SIZE+6 // цвет
         public const int BOT_COUNT_MIN = 8;
 
         public const byte BOT_PROGRAM_SIZE = 64;
+        public const byte BOT_COMMAND_SIZE = 64;
         public const int BOT_PROGRAM_STEP_MAX = 10;
 
         public const int BOT_HEALTH_MAX = 90;
@@ -59,8 +60,11 @@ C_GREEN= MIND_SIZE+6 // цвет
         public const int BOT_HEALTH_BIRTH = 35;
 
 
-        public const int FOOD_COUNT = 60;
-        public const int TOXIN_COUNT = 60;
+        //public const int FOOD_COUNT = 60;
+        //public const int TOXIN_COUNT = 60;
+        public const int FOOD_TOXIN_COUNT = 120;
+        public const int FOOD_PROBABILITY = 50;
+
 
 
 
@@ -71,14 +75,14 @@ C_GREEN= MIND_SIZE+6 // цвет
 
         static Const()
         {
-            ORIENTATIONS[(int)OrientationType.TOP] = new MPoint(0, 1);
-            ORIENTATIONS[(int)OrientationType.TOP_RIGHT] = new MPoint(1, 1);
+            ORIENTATIONS[(int)OrientationType.TOP] = new MPoint(0, -1);
+            ORIENTATIONS[(int)OrientationType.TOP_RIGHT] = new MPoint(1, -1);
             ORIENTATIONS[(int)OrientationType.RIGHT] = new MPoint(1, 0);
-            ORIENTATIONS[(int)OrientationType.BOTTOM_RIGHT] = new MPoint(1, -1);
-            ORIENTATIONS[(int)OrientationType.BOTTOM] = new MPoint(0, -1);
-            ORIENTATIONS[(int)OrientationType.BOTTOM_LEFT] = new MPoint(-1, -1);
+            ORIENTATIONS[(int)OrientationType.BOTTOM_RIGHT] = new MPoint(1, 1);
+            ORIENTATIONS[(int)OrientationType.BOTTOM] = new MPoint(0, 1);
+            ORIENTATIONS[(int)OrientationType.BOTTOM_LEFT] = new MPoint(-1, 1);
             ORIENTATIONS[(int)OrientationType.LEFT] = new MPoint(-1, 0);
-            ORIENTATIONS[(int)OrientationType.TOP_LEFT] = new MPoint(-1, 1);
+            ORIENTATIONS[(int)OrientationType.TOP_LEFT] = new MPoint(-1, -1);
 
 
         }

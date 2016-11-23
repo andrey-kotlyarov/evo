@@ -12,7 +12,7 @@ namespace EvoLib
 
         static MRandom()
         {
-            random = new Random();
+            random = new Random(1);
         }
 
 
@@ -23,7 +23,14 @@ namespace EvoLib
 
         public static int Next(int size)
         {
-            return MRandom.Next(0, size - 1);
+            //return MRandom.Next(0, size - 1);
+            return MRandom.Next(0, size);
+        }
+
+        public static bool Probability(int percent)
+        {
+            int p = MRandom.Next(100);
+            return (p < percent);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace EvoLib
 
 
         public Cell[,] cells { get; private set; }
-        private Dictionary<int, Generation> generations = new Dictionary<int, Generation>();
+        public Dictionary<int, Generation> generations { get; private set; }
         public Generation generation { get; private set; }
 
         //private List<Bot> bots;
@@ -42,6 +42,7 @@ namespace EvoLib
 
         private void initGrid()
         {
+            generations = new Dictionary<int, Generation>();
             cells = new Cell[Const.GRID_SIZE_X, Const.GRID_SIZE_Y];
 
             for (int x = 0; x < Const.GRID_SIZE_X; x++)
@@ -159,6 +160,25 @@ namespace EvoLib
             }
 
             return desc;
+        }
+
+        public Bot GetBot(Cell cell)
+        {
+            Bot bot = null;
+
+            if (generation != null)
+            {
+                foreach (Bot b in generation.bots)
+                {
+                    if (b.point == cell.point)
+                    {
+                        bot = b;
+                        break;
+                    }
+                }
+            }
+
+            return bot;
         }
 
         public override string ToString()

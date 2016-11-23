@@ -55,7 +55,7 @@ namespace EvoApp
 
                     OnNextIteration(1);
                     
-                    if (Grid.CurrentGrid.generation.num == 0)
+                    if (Grid.CurrentGrid.generation.iteration == 0)
                     {
                         OnNextGeneration(1);
                     }
