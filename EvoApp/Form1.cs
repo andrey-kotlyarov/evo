@@ -18,8 +18,6 @@ namespace EvoApp
         public Form1()
         {
             InitializeComponent();
-
-            Grid.CurrentGrid.CreateGrid();
         }
 
 
@@ -75,7 +73,7 @@ namespace EvoApp
             btnStart.Enabled = true;
             */
 
-
+            btnStart.Enabled = false;
 
             _worker = new Worker();
             _worker.ProcessChanged += _worker_ProcessChanged;
@@ -83,7 +81,7 @@ namespace EvoApp
             _tokenSource = new CancellationTokenSource();
             CancellationToken token = _tokenSource.Token;
 
-
+            
             Task<int> task = null;
             //bool isError = false;
             //bool cancelled = false;
@@ -125,7 +123,7 @@ namespace EvoApp
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if (_worker != null)
+            if (_worker != null && _tokenSource != null)
             {
                 _tokenSource.Cancel();
             }

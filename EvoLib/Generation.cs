@@ -22,15 +22,21 @@ namespace EvoLib
 
             iteration = 0;
             
-            createBots();
+            createBots((parentGeneration != null ? parentGeneration.bots : null));
             createFood();
             createToxin();
 
             return;
         }
 
-        private void createBots()
+        private void createBots(List<Bot> parentBots)
         {
+            //TODO
+            if (parentBots != null)
+            {
+                //
+            }
+
             bots = new List<Bot>();
 
             int x;
@@ -92,7 +98,37 @@ namespace EvoLib
 
 
 
+        public bool NextIteration()
+        {
+            iteration++;
 
+            foreach (Bot bot in bots)
+            {
+                bot.DoRun();
+
+                //TODO - удалить если нужно бота
+
+                if (!needContinue())
+                {
+                    return false;
+                }
+            }
+
+            
+            return true;
+        }
+
+
+
+        private bool needContinue()
+        {
+            //DEBUG
+            return iteration < 70;
+
+            return (bots.Count > Const.BOT_COUNT_MIN);
+        }
+
+        /*
         public bool NeedNextIteration()
         {
             //DEBUG
@@ -107,7 +143,7 @@ namespace EvoLib
             iteration++;
             //TODO
         }
-
+        */
 
 
     }

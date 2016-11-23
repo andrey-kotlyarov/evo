@@ -19,6 +19,7 @@ namespace EvoLib
                 if (instance == null)
                 {
                     instance = new Grid();
+                    instance.initGrid();
                 }
 
                 return instance;
@@ -29,7 +30,7 @@ namespace EvoLib
 
         public Cell[,] cells { get; private set; }
         private Dictionary<int, Generation> generations = new Dictionary<int, Generation>();
-        private Generation generation = null;
+        public Generation generation { get; private set; }
 
         //private List<Bot> bots;
 
@@ -39,7 +40,7 @@ namespace EvoLib
         
 
 
-        public void CreateGrid()
+        private void initGrid()
         {
             cells = new Cell[Const.GRID_SIZE_X, Const.GRID_SIZE_Y];
 
@@ -66,7 +67,8 @@ namespace EvoLib
                 }
             }
 
-            nextGeneration();
+            //nextGeneration();
+            prepareToNextGeneration();
         }
 
         private void clearGrid()
@@ -80,7 +82,7 @@ namespace EvoLib
             }
         }
 
-        private void nextGeneration()
+        private void prepareToNextGeneration()
         {
             clearGrid();
 
@@ -90,28 +92,35 @@ namespace EvoLib
             return;
         }
 
-        public void NextIteration()
+
+
+
+
+        public bool NextIteration()
         {
-            if (generation.NeedNextIteration())
-            { 
-                generation.NextIteration();
-                //TODO
-                //SEND EVENT NEXT ITERATION
-            }
-            else
+            if (!generation.NextIteration())
             {
-                nextGeneration();
-                //TODO
-                //SEND EVENT NEXT GENERATION
+                prepareToNextGeneration();
+                return false;
             }
-
-
-            return;
+            
+            return true;
         }
-        
 
+        public void NextGeneration()
+        {
+            while (NextIteration()) ;
 
+        }
 
+        public bool IsFinished
+        {
+            get
+            {
+                //TODO
+                return false;
+            }
+        }
 
 
         public string ToMonoString()
