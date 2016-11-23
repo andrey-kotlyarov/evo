@@ -30,8 +30,10 @@
         {
             this.btnTest = new System.Windows.Forms.Button();
             this.txtTest = new System.Windows.Forms.TextBox();
-            this.bwGrid = new System.ComponentModel.BackgroundWorker();
             this.btnNextIteration = new System.Windows.Forms.Button();
+            this.lblWork = new System.Windows.Forms.Label();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnTest
@@ -52,7 +54,7 @@
             this.txtTest.Name = "txtTest";
             this.txtTest.ReadOnly = true;
             this.txtTest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTest.Size = new System.Drawing.Size(823, 495);
+            this.txtTest.Size = new System.Drawing.Size(823, 368);
             this.txtTest.TabIndex = 1;
             // 
             // btnNextIteration
@@ -65,16 +67,49 @@
             this.btnNextIteration.UseVisualStyleBackColor = true;
             this.btnNextIteration.Click += new System.EventHandler(this.btnNextIteration_Click);
             // 
+            // lblWork
+            // 
+            this.lblWork.AutoSize = true;
+            this.lblWork.Location = new System.Drawing.Point(770, 408);
+            this.lblWork.Name = "lblWork";
+            this.lblWork.Size = new System.Drawing.Size(13, 13);
+            this.lblWork.TabIndex = 4;
+            this.lblWork.Text = "0";
+            // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(760, 436);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 5;
+            this.btnStart.Text = "start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(841, 436);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 6;
+            this.btnStop.Text = "stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(928, 520);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.lblWork);
             this.Controls.Add(this.btnNextIteration);
             this.Controls.Add(this.txtTest);
             this.Controls.Add(this.btnTest);
             this.Name = "Form1";
             this.Text = "Evolution 1.0";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,8 +119,10 @@
 
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.TextBox txtTest;
-        private System.ComponentModel.BackgroundWorker bwGrid;
         private System.Windows.Forms.Button btnNextIteration;
+        private System.Windows.Forms.Label lblWork;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 

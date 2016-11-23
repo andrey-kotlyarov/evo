@@ -45,7 +45,7 @@ namespace EvoLib
 
                 } while (Grid.CurrentGrid.cells[x, y].content != CellContentType.EMPTY);
 
-                Bot bot = new Bot(x, y);
+                Bot bot = new Bot(x, y, 1);
                 bots.Add(bot);
 
                 Grid.CurrentGrid.cells[x, y].SetContent(CellContentType.BOT);
@@ -96,7 +96,7 @@ namespace EvoLib
         public bool NeedNextIteration()
         {
             //DEBUG
-            //return iteration < 5;
+            return iteration < 7;
 
             return (bots.Count > Const.BOT_COUNT_MIN);
         }

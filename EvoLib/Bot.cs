@@ -10,27 +10,31 @@ namespace EvoLib
 {
     public class Bot
     {
-        private MPoint point;
-        //private MPoint course;
-        private OrientationType courseOrientation;
+        public MPoint point { get; private set; }
+        
+        public OrientationType courseOrientation { get; private set; }
 
-        private int health;
+        public int health { get; private set; }
 
-        private byte[] program;
-        private byte address;
+        public int iteration { get; private set; }
+        public int age { get; private set; }
+
+        public byte[] program { get; private set; }
+        public byte address { get; private set; }
 
 
-        public Bot(int x, int y)
+
+        public Bot(int x, int y, int _age)
         {
             point = new MPoint(x, y);
-            //course = Const.COURSES[MRandom.Next(Const.COURSES.Length)];
             courseOrientation = (OrientationType)MRandom.Next(Enum.GetValues(typeof(OrientationType)).Length);
 
             health = Const.BOT_HEALTH_BIRTH;
-
+            iteration = 0;
+            age = _age;
+            
             generateProgram();
-
-
+            
         }
 
         private void generateProgram()
@@ -39,7 +43,7 @@ namespace EvoLib
             program = new byte[Const.BOT_PROGRAM_SIZE];
 
 
-
+            //TODO
             program[0] = 1;
             program[1] = 1;
             program[2] = 1;
@@ -48,7 +52,8 @@ namespace EvoLib
             program[5] = 2;
             program[6] = 3;
             program[7] = 4;
-            //TODO
+
+            return;
         }
 
         public void DoRun()
@@ -60,6 +65,7 @@ namespace EvoLib
                 doCommand();
             }
 
+            iteration += 1;
         }
 
         private int doCommand()
@@ -69,7 +75,7 @@ namespace EvoLib
 
             if (command < 24)
             {
-                MPoint targetPoint = Const.ORIENTATIONS[((int)courseOrientation + (command % 8)) % 8];
+                MPoint targetPoint = point + Const.ORIENTATIONS[((int)courseOrientation + (command % 8)) % 8];
                 Cell targetCell = Grid.CurrentGrid.cells[targetPoint.x, targetPoint.y];
 
                 if (command < 8)

@@ -49,7 +49,6 @@
     <Compile Include="Grid.cs" />
     <Compile Include="MPoint.cs" />
     <Compile Include="MRandom.cs" />
-    <Compile Include="MVector.cs" />
     <Compile Include="OrientationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
