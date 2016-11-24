@@ -79,38 +79,25 @@ namespace EvoLib
                 Bot bot;
                 if (parentBots != null)
                 {
-                    bot = new Bot(x, y, parentBots[i % Const.BOT_COUNT_MIN]);
+                    Bot parentBot = parentBots[i % Const.BOT_COUNT_MIN];
+                    bot = new Bot(x, y, parentBot);
+
+                    if (i >= 16 && i < 24) bot.DoMutation(1, parentBot);
+                    //if (i >= 24 && i < 32) bot.DoMutation(2, parentBot);
+                    if (i >= 32 && i < 40) bot.DoMutation(2, parentBot);
                 }
                 else
                 {
                     bot = new Bot(x, y);
                 }
 
-
-                //if (i >= 48 && i < 56) bot.DoMutation(1);
-                //if (i >= 56 && i < 64) bot.DoMutation(2);
-
                 
-                if (i >= 16 && i < 24) bot.DoMutation(1);
-                //if (i >= 24 && i < 32) bot.DoMutation(2);
-                if (i >= 32 && i < 40) bot.DoMutation(2);
-
 
                 bots.Add(bot);
                 Grid.CurrentGrid.cells[x, y].SetContent(CellContentType.BOT);
             }
 
-            /*
-            int n = bots.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = MRandom.Next(n);
-                Bot b = bots[k];
-                bots[k] = bots[n];
-                bots[n] = b;
-            }
-            */
+            
             return;
         }
 

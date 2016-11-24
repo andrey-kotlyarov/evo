@@ -20,6 +20,7 @@ namespace EvoLib
         public int age { get; private set; }
 
         public byte[] program { get; private set; }
+        public int[] cmd_calls { get; private set; }
         public byte address { get; private set; }
 
 
@@ -55,7 +56,10 @@ namespace EvoLib
         {
             address = 0;
             program = new byte[Const.BOT_PROGRAM_SIZE];
+            cmd_calls = new int[Const.BOT_PROGRAM_SIZE];
 
+
+            for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) cmd_calls[i] = 0;
             if (parentBot != null)
             {
                 for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = parentBot.program[i];
@@ -71,12 +75,18 @@ namespace EvoLib
         }
 
 
-        public void DoMutation(int count)
+        public void DoMutation(int count, Bot parentBot)
         {
             for (int i = 0; i < count; i++)
             {
-                byte addr = (byte)MRandom.Next(Const.BOT_PROGRAM_SIZE);
+                byte addr;
                 byte cmd = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
+
+                do
+                {
+                    addr = (byte)MRandom.Next(Const.BOT_PROGRAM_SIZE);
+                }
+                while (parentBot.cmd_calls[addr] == 0);
 
                 //cmd = (byte)((program[addr] + cmd) % Const.BOT_COMMAND_SIZE);
                 program[addr] = cmd;
@@ -105,6 +115,8 @@ namespace EvoLib
         {
             int step = 1;
             byte command = program[address];
+
+            cmd_calls[address] = cmd_calls[address] + 1;
 
             if (command < 24)
             {
@@ -231,7 +243,9 @@ namespace EvoLib
                 // БЕЗУСЛОВНЫЙ ПЕРЕХОД в ПРОГРАММЕ
                 //
 
-                address += command;
+                //address += command;
+                //address += (byte)(command - 31);
+                address += (byte)(command - 31 + 6);
             }
 
             address = (byte)(address % Const.BOT_PROGRAM_SIZE);
@@ -266,5 +280,45 @@ namespace EvoLib
 
             return desc;
         }
+
+
+        public string ToStringMultiLine()
+        {
+            string desc = "Bot";
+
+            desc += " - (" + point.x + "," + point.y + "," + courseOrientation.ToString() + ")";
+            desc += "; a: " + age +  "; h:" + health;
+
+            desc += "\r\nprog: ";
+            for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++)
+            {
+
+                if (i == address)
+                {
+                    desc += "[" + program[i].ToString("D3") + "] ";
+                }
+                else
+                {
+                    desc += program[i].ToString("D3") + " ";
+                }
+            }
+
+            desc += "\r\ncmd:  ";
+            for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++)
+            {
+
+                if (i == address)
+                {
+                    desc += "[" + cmd_calls[i].ToString("D3") + "] ";
+                }
+                else
+                {
+                    desc += cmd_calls[i].ToString("D3") + " ";
+                }
+            }
+
+            return desc;
+        }
+
     }
 }

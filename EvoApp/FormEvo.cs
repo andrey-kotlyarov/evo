@@ -65,9 +65,9 @@ namespace EvoApp
             selDelay.Items.Add("200");
             selDelay.Items.Add("500");
 
-            selDelay.SelectedIndex = 4;
+            selDelay.SelectedIndex = 0;
 
-            cbIterEnabled.Checked = true;
+            cbIterEnabled.Checked = false;
             cbOneIteration.Checked = false;
 
 
@@ -99,7 +99,8 @@ namespace EvoApp
 
 
                 string debug = "";
-                debug = Grid.CurrentGrid.generation.bots[0].ToString();
+                debug = Grid.CurrentGrid.generation.bots[0].ToStringMultiLine();
+                debug += "\r\n" + Grid.CurrentGrid.generation.bots[1].ToStringMultiLine();
                 txtDebug.Text = debug;
             }
             catch { }
@@ -148,6 +149,7 @@ namespace EvoApp
             Brush brushEmpty = Brushes.LightGray;
             Brush brushBot = Brushes.Navy;
             Brush brushBot0 = Brushes.LightSeaGreen;
+            Brush brushBot1 = Brushes.LightCyan;
             Brush brushFood = Brushes.Green;
             Brush brushToxin = Brushes.OrangeRed;
 
@@ -211,6 +213,10 @@ namespace EvoApp
                         if (bot.point == Grid.CurrentGrid.generation.bots[0].point)
                         {
                             g.FillRectangle(brushBot0, r);
+                        }
+                        else if (bot.point == Grid.CurrentGrid.generation.bots[1].point)
+                        {
+                            g.FillRectangle(brushBot1, r);
                         }
                         else
                         {

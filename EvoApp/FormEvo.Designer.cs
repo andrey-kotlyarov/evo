@@ -139,9 +139,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.statusStatistics});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 691);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 727);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1309, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1342, 22);
             this.statusStrip1.TabIndex = 11;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -188,18 +188,19 @@
             // 
             // txtDebug
             // 
-            this.txtDebug.Location = new System.Drawing.Point(13, 614);
+            this.txtDebug.Font = new System.Drawing.Font("Courier New", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDebug.Location = new System.Drawing.Point(1, 614);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
             this.txtDebug.ReadOnly = true;
-            this.txtDebug.Size = new System.Drawing.Size(1069, 74);
+            this.txtDebug.Size = new System.Drawing.Size(1341, 110);
             this.txtDebug.TabIndex = 15;
             // 
             // FormEvo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1309, 713);
+            this.ClientSize = new System.Drawing.Size(1342, 749);
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.cbOneIteration);
             this.Controls.Add(this.txtIter);
