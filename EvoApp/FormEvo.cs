@@ -115,8 +115,17 @@ namespace EvoApp
 
                 for (int i = Grid.CurrentGrid.generation.num - 1; i >= Math.Max(0, Grid.CurrentGrid.generation.num - 32); i--)
                 {
+                    string line = Grid.CurrentGrid.generations[i].iteration.ToString();
+
+
+                    line += " / T:" + Grid.CurrentGrid.generations[i].killsByToxin.ToString();
+                    line += " / D:" + Grid.CurrentGrid.generations[i].killsByHealth.ToString();
+
+                    line += " - H:" + Grid.CurrentGrid.generations[i].AverageHealth.ToString("F1");
+
+
                     lastIter += (lastIter.Length == 0 ? "" : "\r\n");
-                    lastIter += Grid.CurrentGrid.generations[i].iteration.ToString();
+                    lastIter += line;
                 }
 
 

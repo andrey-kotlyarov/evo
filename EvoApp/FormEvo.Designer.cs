@@ -162,11 +162,11 @@
             // txtIter
             // 
             this.txtIter.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtIter.Location = new System.Drawing.Point(1161, 47);
+            this.txtIter.Location = new System.Drawing.Point(1101, 47);
             this.txtIter.Multiline = true;
             this.txtIter.Name = "txtIter";
             this.txtIter.ReadOnly = true;
-            this.txtIter.Size = new System.Drawing.Size(100, 561);
+            this.txtIter.Size = new System.Drawing.Size(196, 561);
             this.txtIter.TabIndex = 13;
             // 
             // statusStatistics

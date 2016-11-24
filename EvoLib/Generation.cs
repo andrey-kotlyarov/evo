@@ -16,6 +16,28 @@ namespace EvoLib
 
 
 
+
+        public int killsByToxin { get; private set; }
+        public int killsByHealth { get; private set; }
+
+        public double AverageHealth
+        {
+            get
+            {
+                double ah = 0;
+
+                foreach (Bot bot in bots)
+                {
+                    ah += bot.health;
+                }
+
+                ah = ah / bots.Count;
+
+                return ah;
+            }
+        }
+
+
         public Generation(Generation parentGeneration)
         {
             num = (parentGeneration != null ? parentGeneration.num + 1 : 0);
@@ -27,6 +49,9 @@ namespace EvoLib
             //createFood();
             //createToxin();
             CreateFoodToxin(Const.FOOD_TOXIN_COUNT);
+
+            killsByToxin = 0;
+            killsByHealth = 0;
 
             return;
         }
@@ -146,6 +171,9 @@ namespace EvoLib
 
                 if (bot.health <= 0)
                 {
+                    killsByToxin += (bot.dieByToxin ? 1 : 0);
+                    killsByHealth += (bot.dieByToxin ? 0 : 1);
+
                     Cell currentCell = Grid.CurrentGrid.cells[bot.point.x, bot.point.y];
                     currentCell.Clear();
 

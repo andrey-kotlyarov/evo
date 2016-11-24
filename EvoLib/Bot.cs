@@ -24,6 +24,9 @@ namespace EvoLib
 
 
 
+        public bool dieByToxin { get; private set; }
+
+
         public Bot(int x, int y) : this(x, y, null) { }
 
         public Bot(int x, int y, Bot parentBot)
@@ -39,6 +42,8 @@ namespace EvoLib
             age = (parentBot != null ? parentBot.age + 1 : 1);
 
             generateProgram(parentBot);
+
+            dieByToxin = false;
 
             return;
         }
@@ -144,6 +149,7 @@ namespace EvoLib
                     else if (targetCell.content == CellContentType.TOXIN)
                     {
                         health = 0;
+                        dieByToxin = true;
                         Grid.CurrentGrid.generation.CreateFoodToxin(1);
 
                         point = targetPoint;
