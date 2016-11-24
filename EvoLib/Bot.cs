@@ -243,9 +243,9 @@ namespace EvoLib
                 // БЕЗУСЛОВНЫЙ ПЕРЕХОД в ПРОГРАММЕ
                 //
 
-                //address += command;
+                address += command;
                 //address += (byte)(command - 31);
-                address += (byte)(command - 31 + 6);
+                //address += (byte)(command - 31 + 6);
             }
 
             address = (byte)(address % Const.BOT_PROGRAM_SIZE);
