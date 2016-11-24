@@ -41,6 +41,7 @@
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbGrid = new System.Windows.Forms.PictureBox();
             this.txtIter = new System.Windows.Forms.TextBox();
+            this.statusStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
             this.SuspendLayout();
@@ -134,7 +135,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel});
+            this.statusLabel,
+            this.statusStatistics});
             this.statusStrip1.Location = new System.Drawing.Point(0, 691);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1309, 22);
@@ -165,6 +167,12 @@
             this.txtIter.Size = new System.Drawing.Size(100, 561);
             this.txtIter.TabIndex = 13;
             // 
+            // statusStatistics
+            // 
+            this.statusStatistics.Name = "statusStatistics";
+            this.statusStatistics.Size = new System.Drawing.Size(12, 17);
+            this.statusStatistics.Text = "-";
+            // 
             // FormEvo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -186,6 +194,7 @@
             this.Text = "Evolution v1.1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormEvo_FormClosed);
             this.Load += new System.EventHandler(this.FormEvo_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormEvo_Paint);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).EndInit();
@@ -209,5 +218,6 @@
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.PictureBox pbGrid;
         private System.Windows.Forms.TextBox txtIter;
+        private System.Windows.Forms.ToolStripStatusLabel statusStatistics;
     }
 }

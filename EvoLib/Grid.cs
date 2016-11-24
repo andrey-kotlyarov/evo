@@ -124,6 +124,55 @@ namespace EvoLib
         }
 
 
+        public int CountBot
+        {
+            get
+            {
+                return generation.bots.Count;
+            }
+        }
+
+        public int CountFood
+        {
+            get
+            {
+                int count = 0;
+
+                for (int y = 0; y < Const.GRID_SIZE_Y; y++)
+                {
+                    for (int x = 0; x < Const.GRID_SIZE_X; x++)
+                    {
+                        count += (cells[x, y].content == CellContentType.FOOD ? 1 : 0);
+                    }
+                }
+
+                return count;
+            }
+        }
+
+        public int CountToxin
+        {
+            get
+            {
+                int count = 0;
+
+                for (int y = 0; y < Const.GRID_SIZE_Y; y++)
+                {
+                    for (int x = 0; x < Const.GRID_SIZE_X; x++)
+                    {
+                        count += (cells[x, y].content == CellContentType.TOXIN ? 1 : 0);
+                    }
+                }
+
+                return count;
+            }
+        }
+
+
+
+
+
+
         public string ToMonoString()
         {
             string desc = "";

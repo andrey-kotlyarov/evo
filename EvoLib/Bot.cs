@@ -122,25 +122,35 @@ namespace EvoLib
                     if (targetCell.content == CellContentType.WALL) { }
                     */
 
-                    if (targetCell.content == CellContentType.FOOD)
-                    {
-                        health = (health + Const.BOT_HEALTH_FOOD) % (Const.BOT_HEALTH_MAX + 1);
-                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
-                    }
-                    if (targetCell.content == CellContentType.TOXIN)
-                    {
-                        health = 0;
-                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
-                    }
 
-                    if (targetCell.content == CellContentType.EMPTY || targetCell.content == CellContentType.FOOD || targetCell.content == CellContentType.TOXIN)
+                    if (targetCell.content == CellContentType.EMPTY)
                     {
                         point = targetPoint;
                         currentCell.Clear();
                         targetCell.Clear();
                         targetCell.SetContent(CellContentType.BOT);
                     }
+                    else if (targetCell.content == CellContentType.FOOD)
+                    {
+                        health = (health + Const.BOT_HEALTH_FOOD) % (Const.BOT_HEALTH_MAX + 1);
+                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
 
+                        point = targetPoint;
+                        currentCell.Clear();
+                        targetCell.Clear();
+                        targetCell.SetContent(CellContentType.BOT);
+                    }
+                    else if (targetCell.content == CellContentType.TOXIN)
+                    {
+                        health = 0;
+                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
+
+                        point = targetPoint;
+                        currentCell.Clear();
+                        targetCell.Clear();
+                        targetCell.SetContent(CellContentType.BOT);
+                    }
+                    
 
                     step = Const.BOT_PROGRAM_STEP_MAX;
                 }

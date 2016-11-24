@@ -12,19 +12,18 @@ namespace EvoLib
 
         static MRandom()
         {
-            random = new Random(1);
+            random = new Random();
         }
 
 
         public static int Next(int min, int max)
         {
-            return random.Next(min, max);
+            return random.Next(min, max + 1);
         }
 
         public static int Next(int size)
         {
-            //return MRandom.Next(0, size - 1);
-            return MRandom.Next(0, size);
+            return MRandom.Next(0, size - 1);
         }
 
         public static bool Probability(int percent)

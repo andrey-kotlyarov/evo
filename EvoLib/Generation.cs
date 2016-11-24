@@ -44,8 +44,8 @@ namespace EvoLib
             {
                 do
                 {
-                    x = MRandom.Next(1, Const.GRID_SIZE_X - 1);
-                    y = MRandom.Next(1, Const.GRID_SIZE_Y - 1);
+                    x = MRandom.Next(1, Const.GRID_SIZE_X - 2);
+                    y = MRandom.Next(1, Const.GRID_SIZE_Y - 2);
 
                 } while (Grid.CurrentGrid.cells[x, y].content != CellContentType.EMPTY);
 

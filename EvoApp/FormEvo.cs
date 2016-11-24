@@ -36,10 +36,17 @@ namespace EvoApp
 
 
             loadControls();
-            updateControlsGen();
+            //updateControlsGen();
 
             
         }
+
+        private void FormEvo_Paint(object sender, PaintEventArgs e)
+        {
+            updateControlsGen();
+        }
+
+
 
         private void FormEvo_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -65,6 +72,9 @@ namespace EvoApp
 
             _pbGridBufferGraphics = BufferedGraphicsManager.Current.Allocate(pbGrid.CreateGraphics(), pbGrid.DisplayRectangle);
 
+
+            statusLabel.Text = "init";
+            statusStatistics.Text = "statistic";
         }
 
 
@@ -72,6 +82,15 @@ namespace EvoApp
         {
             lblIter.Text = Grid.CurrentGrid.generation.iteration.ToString();
             drawGrid();
+
+            
+            statusStatistics.Text = String.Format(
+                "B:{0}   F:{1}  T:{2}",
+                Grid.CurrentGrid.CountBot,
+                Grid.CurrentGrid.CountFood,
+                Grid.CurrentGrid.CountToxin
+            );
+            
         }
 
         private void updateControlsGen()
