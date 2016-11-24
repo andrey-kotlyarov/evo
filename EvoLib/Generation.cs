@@ -92,8 +92,8 @@ namespace EvoLib
 
                 
                 if (i >= 16 && i < 24) bot.DoMutation(1);
-                if (i >= 24 && i < 32) bot.DoMutation(2);
-                //if (i >= 32 && i < 40) bot.DoMutation(2);
+                //if (i >= 24 && i < 32) bot.DoMutation(2);
+                if (i >= 32 && i < 40) bot.DoMutation(2);
 
 
                 bots.Add(bot);
