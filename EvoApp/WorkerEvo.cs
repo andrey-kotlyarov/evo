@@ -15,6 +15,7 @@ namespace EvoApp
     {
         private int delay = 100;
         private bool enabledIteration = true;
+        private bool oneIteration = false;
 
         public void SetDelay(int _delay)
         {
@@ -24,6 +25,11 @@ namespace EvoApp
         public void SetIterationEnabled(bool _enabledIteration)
         {
             enabledIteration = _enabledIteration;
+        }
+
+        public void SetOneIteration(bool _oneIteration)
+        {
+            oneIteration = _oneIteration;
         }
 
 
@@ -58,6 +64,11 @@ namespace EvoApp
                     if (Grid.CurrentGrid.generation.iteration == 0)
                     {
                         OnNextGeneration(1);
+                    }
+
+                    if (oneIteration)
+                    {
+                        break;
                     }
                 }
                 else

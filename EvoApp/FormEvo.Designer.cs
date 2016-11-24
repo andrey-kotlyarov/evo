@@ -42,6 +42,8 @@
             this.pbGrid = new System.Windows.Forms.PictureBox();
             this.txtIter = new System.Windows.Forms.TextBox();
             this.statusStatistics = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbOneIteration = new System.Windows.Forms.CheckBox();
+            this.txtDebug = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
             this.SuspendLayout();
@@ -106,7 +108,7 @@
             // 
             this.selDelay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selDelay.FormattingEnabled = true;
-            this.selDelay.Location = new System.Drawing.Point(177, 3);
+            this.selDelay.Location = new System.Drawing.Point(432, 5);
             this.selDelay.Name = "selDelay";
             this.selDelay.Size = new System.Drawing.Size(121, 21);
             this.selDelay.TabIndex = 7;
@@ -115,7 +117,7 @@
             // lblDelayLabel
             // 
             this.lblDelayLabel.AutoSize = true;
-            this.lblDelayLabel.Location = new System.Drawing.Point(136, 8);
+            this.lblDelayLabel.Location = new System.Drawing.Point(391, 10);
             this.lblDelayLabel.Name = "lblDelayLabel";
             this.lblDelayLabel.Size = new System.Drawing.Size(35, 13);
             this.lblDelayLabel.TabIndex = 8;
@@ -173,11 +175,33 @@
             this.statusStatistics.Size = new System.Drawing.Size(12, 17);
             this.statusStatistics.Text = "-";
             // 
+            // cbOneIteration
+            // 
+            this.cbOneIteration.AutoSize = true;
+            this.cbOneIteration.Location = new System.Drawing.Point(124, 7);
+            this.cbOneIteration.Name = "cbOneIteration";
+            this.cbOneIteration.Size = new System.Drawing.Size(84, 17);
+            this.cbOneIteration.TabIndex = 14;
+            this.cbOneIteration.Text = "one iteration";
+            this.cbOneIteration.UseVisualStyleBackColor = true;
+            this.cbOneIteration.CheckedChanged += new System.EventHandler(this.cbOneIteration_CheckedChanged);
+            // 
+            // txtDebug
+            // 
+            this.txtDebug.Location = new System.Drawing.Point(13, 614);
+            this.txtDebug.Multiline = true;
+            this.txtDebug.Name = "txtDebug";
+            this.txtDebug.ReadOnly = true;
+            this.txtDebug.Size = new System.Drawing.Size(1069, 74);
+            this.txtDebug.TabIndex = 15;
+            // 
             // FormEvo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1309, 713);
+            this.Controls.Add(this.txtDebug);
+            this.Controls.Add(this.cbOneIteration);
             this.Controls.Add(this.txtIter);
             this.Controls.Add(this.pbGrid);
             this.Controls.Add(this.statusStrip1);
@@ -219,5 +243,7 @@
         private System.Windows.Forms.PictureBox pbGrid;
         private System.Windows.Forms.TextBox txtIter;
         private System.Windows.Forms.ToolStripStatusLabel statusStatistics;
+        private System.Windows.Forms.CheckBox cbOneIteration;
+        private System.Windows.Forms.TextBox txtDebug;
     }
 }

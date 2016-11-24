@@ -68,6 +68,7 @@ namespace EvoApp
             selDelay.SelectedIndex = 4;
 
             cbIterEnabled.Checked = true;
+            cbOneIteration.Checked = false;
 
 
             _pbGridBufferGraphics = BufferedGraphicsManager.Current.Allocate(pbGrid.CreateGraphics(), pbGrid.DisplayRectangle);
@@ -90,7 +91,13 @@ namespace EvoApp
                 Grid.CurrentGrid.CountFood,
                 Grid.CurrentGrid.CountToxin
             );
-            
+
+
+
+            string debug = "";
+            debug = Grid.CurrentGrid.generation.bots[0].ToString();
+            txtDebug.Text = debug;
+
         }
 
         private void updateControlsGen()
@@ -122,6 +129,7 @@ namespace EvoApp
             Brush brushWall = Brushes.Maroon;
             Brush brushEmpty = Brushes.LightGray;
             Brush brushBot = Brushes.Navy;
+            Brush brushBot0 = Brushes.LightSeaGreen;
             Brush brushFood = Brushes.Green;
             Brush brushToxin = Brushes.OrangeRed;
 
@@ -180,9 +188,19 @@ namespace EvoApp
                     }
                     if (cells[x, y].content == CellContentType.BOT)
                     {
-                        g.FillRectangle(brushBot, r);
-
                         Bot bot = Grid.CurrentGrid.GetBot(cells[x, y]);
+
+                        if (bot.point == Grid.CurrentGrid.generation.bots[0].point)
+                        {
+                            g.FillRectangle(brushBot0, r);
+                        }
+                        else
+                        {
+                            g.FillRectangle(brushBot, r);
+                        }
+                        
+
+                        
                         g.DrawString(bot.health.ToString(), fontBot, brushFont, px + 1, py + 2);
                         g.DrawString(bot.age.ToString(), fontBot2, brushFont2, px + 10, py + 12);
 
@@ -292,6 +310,7 @@ namespace EvoApp
             {
                 _workerEvo.SetDelay(Convert.ToInt32(selDelay.SelectedItem.ToString()));
                 _workerEvo.SetIterationEnabled(cbIterEnabled.Checked);
+                _workerEvo.SetOneIteration(cbOneIteration.Checked);
             }
         }
 
@@ -305,6 +324,9 @@ namespace EvoApp
             _workerEvo_ChangeParam();
         }
 
-        
+        private void cbOneIteration_CheckedChanged(object sender, EventArgs e)
+        {
+            _workerEvo_ChangeParam();
+        }
     }
 }
