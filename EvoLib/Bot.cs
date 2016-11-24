@@ -51,15 +51,14 @@ namespace EvoLib
             address = 0;
             program = new byte[Const.BOT_PROGRAM_SIZE];
 
-            //DEBUG
-            //for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = 0;
-
             if (parentBot != null)
             {
                 for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = parentBot.program[i];
             }
             else
             {
+                //DEBUG
+                //for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = (byte)MRandom.Next(24);
                 for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
             }
 
@@ -109,10 +108,12 @@ namespace EvoLib
                 MPoint targetPoint = point + Const.ORIENTATIONS[((int)courseOrientation + (command % 8)) % 8];
                 Cell targetCell = Grid.CurrentGrid.cells[targetPoint.x, targetPoint.y];
 
+                address += (byte)targetCell.content;
+
                 if (command < 8)
                 {
                     //
-                    //ШАГНУТЬ
+                    // ШАГНУТЬ
                     //
                     /*
                     if (targetCell.content == CellContentType.BOT) { }
@@ -157,7 +158,7 @@ namespace EvoLib
                 else if (command < 16)
                 {
                     //
-                    //ВЗЯТЬ ЕДУ / ПРЕОБРАЗОВАТЬ ЯД
+                    // ВЗЯТЬ ЕДУ / ПРЕОБРАЗОВАТЬ ЯД
                     //
                     /*
                     if (targetCell.content == CellContentType.BOT) { }
@@ -184,7 +185,7 @@ namespace EvoLib
                 else if (command < 24)
                 {
                     //
-                    //ПОСМОТРЕТЬ
+                    // ПОСМОТРЕТЬ
                     //
                     /*
                     if (targetCell.content == CellContentType.BOT) { }
@@ -193,20 +194,19 @@ namespace EvoLib
                     if (targetCell.content == CellContentType.TOXIN) { }
                     if (targetCell.content == CellContentType.WALL) { }
                     */
-
-                    
-                    //TODO
-                    //????
                 }
 
 
-                address += (byte)targetCell.content;
+                
             }
             else if (command < 32)
             {
                 //
-                //ПОВЕРНУТЬСЯ
+                // ПОВЕРНУТЬСЯ
                 //
+
+                address += 1;
+                
                 /*
                 if (targetCell.content == CellContentType.BOT) { }
                 if (targetCell.content == CellContentType.EMPTY) { }
@@ -217,10 +217,14 @@ namespace EvoLib
                 courseOrientation = (OrientationType)(((int)courseOrientation + (command % 8)) % 8);
 
 
-                address += 1;
+                
             }
             else
             {
+                //
+                // БЕЗУСЛОВНЫЙ ПЕРЕХОД в ПРОГРАММЕ
+                //
+
                 address += command;
             }
 

@@ -81,43 +81,52 @@ namespace EvoApp
 
         private void updateControlsIter()
         {
-            lblIter.Text = Grid.CurrentGrid.generation.iteration.ToString();
-            drawGrid();
-
-            
-            statusStatistics.Text = String.Format(
-                "B:{0}   F:{1}  T:{2}",
-                Grid.CurrentGrid.CountBot,
-                Grid.CurrentGrid.CountFood,
-                Grid.CurrentGrid.CountToxin
-            );
+            try
+            {
 
 
+                lblIter.Text = Grid.CurrentGrid.generation.iteration.ToString();
+                drawGrid();
 
-            string debug = "";
-            debug = Grid.CurrentGrid.generation.bots[0].ToString();
-            txtDebug.Text = debug;
 
+                statusStatistics.Text = String.Format(
+                    "B:{0}   F:{1}  T:{2}",
+                    Grid.CurrentGrid.CountBot,
+                    Grid.CurrentGrid.CountFood,
+                    Grid.CurrentGrid.CountToxin
+                );
+
+
+
+                string debug = "";
+                debug = Grid.CurrentGrid.generation.bots[0].ToString();
+                txtDebug.Text = debug;
+            }
+            catch { }
         }
 
         private void updateControlsGen()
         {
-            lblGen.Text = Grid.CurrentGrid.generation.num.ToString();
-
-            string lastIter = "";
-
-            for (int i = Grid.CurrentGrid.generation.num - 1; i >= Math.Max(0, Grid.CurrentGrid.generation.num - 32); i--)
+            try
             {
-                lastIter += (lastIter.Length == 0 ? "" : "\r\n");
-                lastIter += Grid.CurrentGrid.generations[i].iteration.ToString();
+                lblGen.Text = Grid.CurrentGrid.generation.num.ToString();
+
+                string lastIter = "";
+
+                for (int i = Grid.CurrentGrid.generation.num - 1; i >= Math.Max(0, Grid.CurrentGrid.generation.num - 32); i--)
+                {
+                    lastIter += (lastIter.Length == 0 ? "" : "\r\n");
+                    lastIter += Grid.CurrentGrid.generations[i].iteration.ToString();
+                }
+
+
+
+
+                txtIter.Text = lastIter;
+
+                updateControlsIter();
             }
-
-
-
-
-            txtIter.Text = lastIter;
-
-            updateControlsIter();
+            catch { }
         }
 
 
