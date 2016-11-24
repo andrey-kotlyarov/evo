@@ -163,7 +163,7 @@ namespace EvoLib
                         targetCell.Clear();
                         Grid.CurrentGrid.generation.CreateFoodToxin(1);
                     }
-                    if (targetCell.content == CellContentType.TOXIN)
+                    else if (targetCell.content == CellContentType.TOXIN)
                     {
                         targetCell.Clear();
                         targetCell.SetContent(CellContentType.FOOD);
