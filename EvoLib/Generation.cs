@@ -83,8 +83,12 @@ namespace EvoLib
                     bot = new Bot(x, y, parentBot);
 
                     if (i >= 16 && i < 24) bot.DoMutation(1, parentBot);
+                    if (i >= 32 && i < 40) bot.DoMutation(1, parentBot);
+                    if (i >= 48 && i < 56) bot.DoMutation(1, parentBot);
+
                     //if (i >= 24 && i < 32) bot.DoMutation(2, parentBot);
-                    if (i >= 32 && i < 40) bot.DoMutation(2, parentBot);
+                    //if (i >= 32 && i < 40) bot.DoMutation(2, parentBot);
+                    //if (i >= 0 && i < 8) bot.program[0] = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
                 }
                 else
                 {
