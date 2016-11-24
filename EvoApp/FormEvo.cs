@@ -119,7 +119,7 @@ namespace EvoApp
 
 
                     line += " / T:" + Grid.CurrentGrid.generations[i].killsByToxin.ToString();
-                    line += " / D:" + Grid.CurrentGrid.generations[i].killsByHealth.ToString();
+                    //line += " / D:" + Grid.CurrentGrid.generations[i].killsByHealth.ToString();
 
                     line += " - H:" + Grid.CurrentGrid.generations[i].AverageHealth.ToString("F1");
 

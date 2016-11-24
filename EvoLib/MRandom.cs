@@ -12,7 +12,7 @@ namespace EvoLib
 
         static MRandom()
         {
-            random = new Random(101);
+            random = new Random(123456);
         }
 
 

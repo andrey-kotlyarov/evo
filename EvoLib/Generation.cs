@@ -86,18 +86,33 @@ namespace EvoLib
                     bot = new Bot(x, y);
                 }
 
-                //if (i >= 40 && i < 48) bot.DoMutation(1);
-                if (i >= 48 && i < 56) bot.DoMutation(1);
-                if (i >= 56 && i < 64) bot.DoMutation(2);
 
+                //if (i >= 48 && i < 56) bot.DoMutation(1);
+                //if (i >= 56 && i < 64) bot.DoMutation(2);
+
+                
+                if (i >= 16 && i < 24) bot.DoMutation(1);
+                if (i >= 24 && i < 36) bot.DoMutation(2);
 
                 bots.Add(bot);
                 Grid.CurrentGrid.cells[x, y].SetContent(CellContentType.BOT);
             }
 
-            
+            /*
+            int n = bots.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = MRandom.Next(n);
+                Bot b = bots[k];
+                bots[k] = bots[n];
+                bots[n] = b;
+            }
+            */
             return;
         }
+
+        
 
         /*
         private void createFood()
@@ -151,7 +166,7 @@ namespace EvoLib
 
                 } while (Grid.CurrentGrid.cells[x, y].content != CellContentType.EMPTY);
 
-                bool isFood = MRandom.Probability(50);
+                bool isFood = MRandom.Probability(Const.FOOD_PROBABILITY);
                 Grid.CurrentGrid.cells[x, y].SetContent(isFood ? CellContentType.FOOD : CellContentType.TOXIN);
             }
         }

@@ -78,7 +78,7 @@ namespace EvoLib
                 byte addr = (byte)MRandom.Next(Const.BOT_PROGRAM_SIZE);
                 byte cmd = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
 
-                cmd = (byte)((program[addr] + cmd) % Const.BOT_COMMAND_SIZE);
+                //cmd = (byte)((program[addr] + cmd) % Const.BOT_COMMAND_SIZE);
                 program[addr] = cmd;
             }
 
@@ -138,7 +138,7 @@ namespace EvoLib
                     }
                     else if (targetCell.content == CellContentType.FOOD)
                     {
-                        health = (health + Const.BOT_HEALTH_FOOD) % (Const.BOT_HEALTH_MAX + 1);
+                        health = Math.Min(health + Const.BOT_HEALTH_FOOD, Const.BOT_HEALTH_MAX);
                         Grid.CurrentGrid.generation.CreateFoodToxin(1);
 
                         point = targetPoint;
