@@ -40,8 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EBot.cs" />
+    <Compile Include="ECell.cs" />
+    <Compile Include="ECellType.cs" />
     <Compile Include="EGrid.cs" />
+    <Compile Include="EHistory.cs" />
+    <Compile Include="EHistoryItem.cs" />
+    <Compile Include="ESetting.cs" />
     <Compile Include="Evo2Engine.cs" />
+    <Compile Include="MOrientation.cs" />
+    <Compile Include="MPoint.cs" />
+    <Compile Include="MRandom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

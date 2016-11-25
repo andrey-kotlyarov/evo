@@ -41,22 +41,36 @@ namespace Evo2App
 
 
 
-        private void evoEngine_OnIterationCompleted(int generation, int iteration, EGrid eGrid)
+        private void evoEngine_OnIterationCompleted(int generation, int iteration)
         {
-            lblIter.Text = iteration.ToString();
-            
+            this.InvokeEx(
+                () =>
+                {
+                    lblIter.Text = iteration.ToString();
+                }
+            );
         }
 
         private void evoEngine_OnGenerationStarted(int generation)
         {
-            lblGen.Text = generation.ToString();
-            lblIter.Text = "0";
+            this.InvokeEx(
+                () =>
+                {
+                    lblGen.Text = generation.ToString();
+                    lblIter.Text = "0";
+                }
+            );
         }
 
-        private void evoEngine_OnGenerationCompleted(int generation, int iteration, EGrid eGrid)
+        private void evoEngine_OnGenerationCompleted(int generation, int iteration)
         {
-            lblGen.Text = generation.ToString();
-            lblIter.Text = iteration.ToString();
+            this.InvokeEx(
+                () =>
+                {
+                    lblGen.Text = generation.ToString();
+                    lblIter.Text = iteration.ToString();
+                }
+            );
         }
 
         

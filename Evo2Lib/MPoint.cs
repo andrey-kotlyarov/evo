@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 
 
-namespace EvoLib
+namespace Evo2Lib
 {
-
     public struct MPoint
     {
         public int x;
@@ -50,5 +49,4 @@ namespace EvoLib
             return base.GetHashCode();
         }
     }
-    
 }

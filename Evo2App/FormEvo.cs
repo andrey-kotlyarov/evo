@@ -210,22 +210,41 @@ namespace Evo2App
 
 
 
-        private void evoEngine_OnIterationCompleted(int generation, int iteration, EGrid eGrid)
+        private void evoEngine_OnIterationCompleted(int generation, int iteration)
         {
-            if (cbOneEvent.Checked) btnPause_Click(null, null);
-            //addReportMessage(String.Format("evoEngine_OnIterationCompleted G:{0} I:{1}", generation, iteration));
+            this.InvokeEx(
+                () =>
+                {
+                    if (cbOneEvent.Checked) btnPause_Click(null, null);
+                    //addReportMessage(String.Format("evoEngine_OnIterationCompleted G:{0} I:{1}", generation, iteration));
+                }
+            );
+            
         }
 
         private void evoEngine_OnGenerationStarted(int generation)
         {
-            if (cbOneEvent.Checked) btnPause_Click(null, null);
-            addReportMessage(String.Format("evoEngine_OnGenerationStarted G:{0}", generation));
+            this.InvokeEx(
+                () =>
+                {
+                    if (cbOneEvent.Checked) btnPause_Click(null, null);
+                    addReportMessage(String.Format("evoEngine_OnGenerationStarted G:{0}", generation));
+                }
+            );
+
+            
         }
 
-        private void evoEngine_OnGenerationCompleted(int generation, int iteration, EGrid eGrid)
+        private void evoEngine_OnGenerationCompleted(int generation, int iteration)
         {
-            if (cbOneEvent.Checked) btnPause_Click(null, null);
-            addReportMessage(String.Format("evoEngine_OnGenerationCompleted G:{0} I:{1}", generation, iteration));
+            this.InvokeEx(
+                () =>
+                {
+                    if (cbOneEvent.Checked) btnPause_Click(null, null);
+                    addReportMessage(String.Format("evoEngine_OnGenerationCompleted G:{0} I:{1}", generation, iteration));
+                }
+            );
+            
         }
 
 

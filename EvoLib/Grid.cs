@@ -264,17 +264,17 @@ namespace EvoLib
                     }
                 }
             }
-            /*
-            desc += "\r\n\r\nCELLS";
-            for (int x = 0; x < Const.GRID_SIZE_X; x++)
-            {
-                for (int y = 0; y < Const.GRID_SIZE_Y; y++)
-                {
-                    desc += "\r\n";
-                    desc += cells[x, y].ToString();
-                }
-            }
-            */
+            
+            //desc += "\r\n\r\nCELLS";
+            //for (int x = 0; x < Const.GRID_SIZE_X; x++)
+            //{
+            //    for (int y = 0; y < Const.GRID_SIZE_Y; y++)
+            //    {
+            //        desc += "\r\n";
+            //        desc += cells[x, y].ToString();
+            //    }
+            //}
+            
 
             desc += "\r\n\r\nBOTS";
             foreach (Bot bot in generation.bots)

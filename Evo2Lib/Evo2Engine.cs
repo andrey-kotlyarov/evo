@@ -8,6 +8,7 @@ namespace Evo2Lib
     public class Evo2Engine
     {
         private EGrid _eGrid;
+        public EGrid eGrid { get { return _eGrid; } }
 
         private int _doDelay = 40;
         private int _doEventVia = 0;
@@ -29,8 +30,8 @@ namespace Evo2Lib
 
 
         public event Action<int> OnGeneration_Started;
-        public event Action<int, int, EGrid> OnGeneration_Completed;
-        public event Action<int, int, EGrid> OnIteration_Completed;
+        public event Action<int, int> OnGeneration_Completed;
+        public event Action<int, int> OnIteration_Completed;
 
 
         public Evo2Engine()
@@ -61,7 +62,7 @@ namespace Evo2Lib
                 bool evo_completed = false;
                 if (needEventForIteration)
                 {
-                    if (OnIteration_Completed != null) OnIteration_Completed(_eGrid.generation, _eGrid.iteration, _eGrid);
+                    if (OnIteration_Completed != null) OnIteration_Completed(_eGrid.generation, _eGrid.iteration);
                     needDelay = true;
                 }
 
@@ -70,7 +71,7 @@ namespace Evo2Lib
                 {
                     if (needEventForGeneration)
                     {
-                        if (OnGeneration_Completed != null) OnGeneration_Completed(_eGrid.generation, _eGrid.iteration, _eGrid);
+                        if (OnGeneration_Completed != null) OnGeneration_Completed(_eGrid.generation, _eGrid.iteration);
                         needDelay = true;
                     }
 
