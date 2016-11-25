@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoApp", "EvoApp\EvoApp.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoLib", "EvoLib\EvoLib.csproj", "{60D814C6-54AF-4F9E-8DF2-0F03EFA1C2DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evo2Lib", "Evo2Lib\Evo2Lib.csproj", "{0DE4165E-A36D-4566-B0A4-EA951DAC2EC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evo2App", "Evo2App\Evo2App.csproj", "{33D5CF7A-B402-41B9-B4FF-7D3B757FAB21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{60D814C6-54AF-4F9E-8DF2-0F03EFA1C2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60D814C6-54AF-4F9E-8DF2-0F03EFA1C2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60D814C6-54AF-4F9E-8DF2-0F03EFA1C2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DE4165E-A36D-4566-B0A4-EA951DAC2EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DE4165E-A36D-4566-B0A4-EA951DAC2EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DE4165E-A36D-4566-B0A4-EA951DAC2EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DE4165E-A36D-4566-B0A4-EA951DAC2EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D5CF7A-B402-41B9-B4FF-7D3B757FAB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D5CF7A-B402-41B9-B4FF-7D3B757FAB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D5CF7A-B402-41B9-B4FF-7D3B757FAB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D5CF7A-B402-41B9-B4FF-7D3B757FAB21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
