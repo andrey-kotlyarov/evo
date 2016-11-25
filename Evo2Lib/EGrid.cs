@@ -18,6 +18,8 @@ namespace Evo2Lib
 
         private EHistory _history = new EHistory();
 
+        private int[] _recoveryIndex = new int[ESetting.BOT_COUNT_MIN];
+
 
 
         public int generation { get { return _generation; } }
@@ -34,7 +36,7 @@ namespace Evo2Lib
         {
             createWalls();
             createBots();
-            createFoodToxin(ESetting.FOOD_TOXIN_COUNT);
+            CreateFoodToxin(ESetting.FOOD_TOXIN_COUNT);
         }
 
         
@@ -65,7 +67,7 @@ namespace Evo2Lib
             }
         }
 
-        private void createFoodToxin(int count)
+        public void CreateFoodToxin(int count)
         {
             for (int i = 0; i < count; i++)
             {
@@ -80,13 +82,51 @@ namespace Evo2Lib
         {
             for (int i = 0; i < bots.Length; i++)
             {
-                bots[i] = new EBot();
+                ECell cell = selectEmptyCell();
+                bots[i] = new EBot(cell);
             }
         }
 
         private void recoveryBots()
         {
+            
+            int j = 0;
+            //for (int i = 0; i < ESetting.BOT_COUNT_MAX; i++)
+            for (int i = 0; i < bots.Length; i++)
+            {
+                if (bots[i].alive)
+                {
+                    bots[i].DoRecovery(selectEmptyCell());
 
+                    _recoveryIndex[j] = i;
+                    j++;
+                }
+            }
+            
+            int k = 0;
+            for (int i = 0; i < bots.Length; i++)
+            {
+                if (!bots[i].alive)
+                {
+                    bots[i].DoRecovery(selectEmptyCell(), bots[_recoveryIndex[k % ESetting.BOT_COUNT_MIN]]);
+                    
+                    if (k >= 0 && k < 8) { }
+                    if (k >= 8 && k < 16) { bots[i].DoMutation(1); }
+                    if (k >= 16 && k < 24) { }
+                    if (k >= 24 && k < 32) { bots[i].DoMutation(1); }
+                    if (k >= 32 && k < 40) { }
+                    if (k >= 40 && k < 48) { bots[i].DoMutation(1); }
+                    
+                    k += 1;
+                }
+            }
+
+            for (int i = 0; i < bots.Length; i++)
+            {
+                bots[i].DoClearCalls();
+            }
+
+            return;
         }
 
 
@@ -136,17 +176,14 @@ namespace Evo2Lib
 
                 if (bot.alive)
                 {
-                    bot.DoRun();
+                    bot.DoRun(this);
 
-                    if (!bot.alive)
-                    {
-                        cells[bot.point.x, bot.point.y].Clear();
-                        createFoodToxin(1);
-                    }
+                    if (!bot.alive) { cells[bot.point.x, bot.point.y].Clear(); }
                 }
 
                 if (isGenerationComplete())
                 {
+                    _history.Add(this);
                     return true;
                 }
             }
@@ -170,7 +207,7 @@ namespace Evo2Lib
             return false;
             */
 
-            if (_generation == 100000 || false)
+            if (_generation == 100000 && false)
             {
                 return true;
             }
@@ -181,7 +218,7 @@ namespace Evo2Lib
 
             clear();
             recoveryBots();
-            createFoodToxin(ESetting.FOOD_TOXIN_COUNT);
+            CreateFoodToxin(ESetting.FOOD_TOXIN_COUNT);
 
 
 
@@ -230,123 +267,7 @@ namespace Evo2Lib
 
             return new Tuple<int, int>(countF, countT);
         }
-
-
-        /*        
         
-        public string ToMonoString()
-        {
-            string desc = "";
-
-            desc += "GENERATION: " + generation.num;
-            desc += "; ITERATION: " + generation.iteration;
-
-            for (int y = 0; y < Const.GRID_SIZE_Y; y++)
-            {
-                desc += "\r\n";
-                for (int x = 0; x < Const.GRID_SIZE_X; x++)
-                {
-                    if (cells[x, y].content == CellContentType.EMPTY)
-                    {
-                        desc += " ";
-                    }
-                    if (cells[x, y].content == CellContentType.WALL)
-                    {
-                        desc += "X";
-                    }
-                    if (cells[x, y].content == CellContentType.FOOD)
-                    {
-                        desc += "F";
-                    }
-                    if (cells[x, y].content == CellContentType.TOXIN)
-                    {
-                        desc += "T";
-                    }
-                    if (cells[x, y].content == CellContentType.BOT)
-                    {
-                        desc += "B";
-                    }
-                }
-            }
-
-            return desc;
-        }
-
-        public Bot GetBot(Cell cell)
-        {
-            Bot bot = null;
-
-            if (generation != null)
-            {
-                foreach (Bot b in generation.bots)
-                {
-                    if (b.point == cell.point)
-                    {
-                        bot = b;
-                        break;
-                    }
-                }
-            }
-
-            return bot;
-        }
-
-        public override string ToString()
-        {
-            string desc = base.ToString();
-
-            desc += "GENERATION: " + generation.num;
-            desc += "; ITERATION: " + generation.iteration;
-
-            for (int y = 0; y < Const.GRID_SIZE_Y; y++)
-            {
-                desc += "\r\n";
-                for (int x = 0; x < Const.GRID_SIZE_X; x++)
-                {
-                    if (cells[x, y].content == CellContentType.EMPTY)
-                    {
-                        desc += " ";
-                    }
-                    if (cells[x, y].content == CellContentType.WALL)
-                    {
-                        desc += "X";
-                    }
-                    if (cells[x, y].content == CellContentType.FOOD)
-                    {
-                        desc += "F";
-                    }
-                    if (cells[x, y].content == CellContentType.TOXIN)
-                    {
-                        desc += "T";
-                    }
-                    if (cells[x, y].content == CellContentType.BOT)
-                    {
-                        desc += "B";
-                    }
-                }
-            }
-            
-            //desc += "\r\n\r\nCELLS";
-            //for (int x = 0; x < Const.GRID_SIZE_X; x++)
-            //{
-            //    for (int y = 0; y < Const.GRID_SIZE_Y; y++)
-            //    {
-            //        desc += "\r\n";
-            //        desc += cells[x, y].ToString();
-            //    }
-            //}
-            
-
-            desc += "\r\n\r\nBOTS";
-            foreach (Bot bot in generation.bots)
-            {
-                desc += "\r\n";
-                desc += bot.ToString();
-            }
-
-            return desc;
-        }
-        */
 
     }
 }

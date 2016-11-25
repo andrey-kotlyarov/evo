@@ -32,8 +32,13 @@ namespace Evo2App
                 _evoEngine.OnGeneration_Started += evoEngine_OnGenerationStarted;
                 _evoEngine.OnGeneration_Completed += evoEngine_OnGenerationCompleted;
                 _evoEngine.OnIteration_Completed += evoEngine_OnIterationCompleted;
+
+
+                lblGen.Text = _evoEngine.eGrid.generation.ToString();
+                lblIter.Text = _evoEngine.eGrid.iteration.ToString();
             }
 
+            
 
 
         }

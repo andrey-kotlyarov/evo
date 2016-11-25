@@ -48,112 +48,125 @@ namespace Evo2Lib
             }
         }
 
-        public void DoRun()
+
+        public EBot(ECell cell)
         {
-            //TODO
+            _point = cell.point;
+
+            _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
+            _generation = 1;
+            _health = ESetting.BOT_HEALTH_BIRTH;
+
+            _dieByToxin = false;
+
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) program[i] = (byte)MRandom.Next(ESetting.BOT_COMMAND_SIZE);
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) calls[i] = 0;
+            _address = 0;
+
+            return;
         }
 
 
 
-        /*
-        public Bot(int x, int y) : this(x, y, null) { }
-
-        public Bot(int x, int y, Bot parentBot)
+        public void DoRecovery(ECell cell)
         {
-            point = new MPoint(x, y);
+            _point = cell.point;
 
-            //DEBUG
-            //courseOrientation = OrientationType.TOP;
-            courseOrientation = (OrientationType)MRandom.Next(Enum.GetValues(typeof(OrientationType)).Length);
+            _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
+            _generation += 1;
+            _health = ESetting.BOT_HEALTH_BIRTH;
 
-            health = Const.BOT_HEALTH_BIRTH;
-            iteration = 0;
-            age = (parentBot != null ? parentBot.age + 1 : 1);
+            _dieByToxin = false;
 
-            generateProgram(parentBot);
+            _address = 0;
 
-            dieByToxin = false;
+            return;
+        }
+
+
+
+        public void DoRecovery(ECell cell, EBot sampleBot)
+        {
+            _point = cell.point;
+
+            _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
+            _generation = sampleBot.generation;
+            _health = ESetting.BOT_HEALTH_BIRTH;
+
+            _dieByToxin = false;
+
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) program[i] = sampleBot.program[i];
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) calls[i] = sampleBot.calls[i];
+            _address = 0;
+
+            return;
+        }
+
+        public void DoMutation(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                int attempt = 0;
+                byte addr;
+                byte cmd = (byte)MRandom.Next(ESetting.BOT_COMMAND_SIZE);
+
+                do
+                {
+                    attempt += 1;
+                    addr = (byte)MRandom.Next(ESetting.BOT_PROGRAM_SIZE);
+                }
+                while (calls[addr] == 0 || attempt <= 8);
+
+                if (program[addr] != cmd)
+                {
+                    program[addr] = cmd;
+                    _generation = 1;
+                }
+            }
+
+            return;
+        }
+
+        public void DoClearCalls()
+        {
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) calls[i] = 0;
+
+            return;
+        }
+
+
+
+
+        public void DoRun(EGrid grid)
+        {
+            int steps = 0;
+
+            _health -= 1;
+
+            while (steps < ESetting.BOT_PROGRAM_STEP_MAX)
+            {
+                steps += doCommand(grid);
+            }
 
             return;
         }
 
         
-
-
-        private void generateProgram(Bot parentBot)
-        {
-            address = 0;
-            program = new byte[Const.BOT_PROGRAM_SIZE];
-            cmd_calls = new int[Const.BOT_PROGRAM_SIZE];
-
-
-            for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) cmd_calls[i] = 0;
-            if (parentBot != null)
-            {
-                for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = parentBot.program[i];
-            }
-            else
-            {
-                //DEBUG
-                //for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = (byte)MRandom.Next(24);
-                for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++) program[i] = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
-            }
-
-            return;
-        }
-
-
-        public void DoMutation(int count, Bot parentBot)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                byte addr;
-                byte cmd = (byte)MRandom.Next(Const.BOT_COMMAND_SIZE);
-
-                do
-                {
-                    addr = (byte)MRandom.Next(Const.BOT_PROGRAM_SIZE);
-                }
-                while (parentBot.cmd_calls[addr] == 0);
-
-                //cmd = (byte)((program[addr] + cmd) % Const.BOT_COMMAND_SIZE);
-                program[addr] = cmd;
-            }
-
-            address = 0;
-            age = 1;
-        }
-
-
-        public void DoRun()
-        {
-            int step = 0;
-
-            health -= 1;
-
-            while (step < Const.BOT_PROGRAM_STEP_MAX)
-            {
-                step += doCommand();
-            }
-
-            iteration += 1;
-        }
-
-        private int doCommand()
+        private int doCommand(EGrid grid)
         {
             int step = 1;
             byte command = program[address];
 
-            cmd_calls[address] = cmd_calls[address] + 1;
+            calls[address] = calls[address] + 1;
 
             if (command < 24)
             {
-                Cell currentCell = Grid.CurrentGrid.cells[point.x, point.y];
+                ECell currentCell = grid.cells[point.x, point.y];
 
-                MPoint targetPoint = point + Const.ORIENTATIONS[((int)courseOrientation + (command % 8)) % 8];
-                Cell targetCell = Grid.CurrentGrid.cells[targetPoint.x, targetPoint.y];
+                MPoint targetPoint = point + ESetting.ORIENTATIONS[((int)_course + (command % 8)) % 8];
+                ECell targetCell = grid.cells[targetPoint.x, targetPoint.y];
 
-                address += (byte)targetCell.content;
+                _address += (byte)targetCell.type;
 
                 if (command < 8)
                 {
@@ -169,39 +182,36 @@ namespace Evo2Lib
                     
 
 
-                    if (targetCell.content == CellContentType.EMPTY)
+                    if (targetCell.type == ECellType.EMPTY)
                     {
-                        point = targetPoint;
+                        _point = targetPoint;
                         currentCell.Clear();
-                        targetCell.Clear();
-                        targetCell.SetContent(CellContentType.BOT);
+                        targetCell.SetType(ECellType.BOT);
                     }
-                    else if (targetCell.content == CellContentType.FOOD)
+                    else if (targetCell.type == ECellType.FOOD)
                     {
-                        health = Math.Min(health + Const.BOT_HEALTH_FOOD, Const.BOT_HEALTH_MAX);
-                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
+                        _health = Math.Min(health + ESetting.BOT_HEALTH_FOOD, ESetting.BOT_HEALTH_MAX);
+                        grid.CreateFoodToxin(1);
 
-                        point = targetPoint;
+                        _point = targetPoint;
                         currentCell.Clear();
-                        targetCell.Clear();
-                        targetCell.SetContent(CellContentType.BOT);
+                        targetCell.SetType(ECellType.BOT);
                     }
-                    else if (targetCell.content == CellContentType.TOXIN)
+                    else if (targetCell.type == ECellType.TOXIN)
                     {
-                        health = 0;
-                        dieByToxin = true;
-                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
+                        _health = 0;
+                        _dieByToxin = true;
+                        grid.CreateFoodToxin(1);
 
-                        point = targetPoint;
+                        _point = targetPoint;
                         currentCell.Clear();
-                        targetCell.Clear();
-                        targetCell.SetContent(CellContentType.BOT);
+                        targetCell.SetType(ECellType.BOT);
                     }
                     
 
-                    step = Const.BOT_PROGRAM_STEP_MAX;
+                    step = ESetting.BOT_PROGRAM_STEP_MAX;
                 }
-                else if (command< 16)
+                else if (command < 16)
                 {
                     //
                     // ВЗЯТЬ ЕДУ / ПРЕОБРАЗОВАТЬ ЯД
@@ -214,19 +224,18 @@ namespace Evo2Lib
                     //if (targetCell.content == CellContentType.WALL) { }
                     
 
-                    if (targetCell.content == CellContentType.FOOD)
+                    if (targetCell.type == ECellType.FOOD)
                     {
-                        health = (health + Const.BOT_HEALTH_FOOD) % (Const.BOT_HEALTH_MAX + 1);
+                        _health = Math.Min(health + ESetting.BOT_HEALTH_FOOD, ESetting.BOT_HEALTH_MAX);
                         targetCell.Clear();
-                        Grid.CurrentGrid.generation.CreateFoodToxin(1);
+                        grid.CreateFoodToxin(1);
                     }
-                    else if (targetCell.content == CellContentType.TOXIN)
+                    else if (targetCell.type == ECellType.TOXIN)
                     {
-                        targetCell.Clear();
-                        targetCell.SetContent(CellContentType.FOOD);
+                        targetCell.SetType(ECellType.FOOD);
                     }
 
-                    step = Const.BOT_PROGRAM_STEP_MAX;
+                    step = ESetting.BOT_PROGRAM_STEP_MAX;
                 }
                 else if (command< 24)
                 {
@@ -239,11 +248,8 @@ namespace Evo2Lib
                     //if (targetCell.content == CellContentType.FOOD) { }
                     //if (targetCell.content == CellContentType.TOXIN) { }
                     //if (targetCell.content == CellContentType.WALL) { }
-                    
                 }
 
-
-                
             }
             else if (command< 32)
             {
@@ -251,8 +257,7 @@ namespace Evo2Lib
                 // ПОВЕРНУТЬСЯ
                 //
 
-                address += 1;
-                
+                _address += 1;
                 
                 //if (targetCell.content == CellContentType.BOT) { }
                 //if (targetCell.content == CellContentType.EMPTY) { }
@@ -260,10 +265,7 @@ namespace Evo2Lib
                 //if (targetCell.content == CellContentType.TOXIN) { }
                 //if (targetCell.content == CellContentType.WALL) { }
                 
-                courseOrientation = (OrientationType)(((int)courseOrientation + (command % 8)) % 8);
-
-
-                
+                _course = (MOrientation)(((int)_course + (command % 8)) % 8);
             }
             else
             {
@@ -271,84 +273,27 @@ namespace Evo2Lib
                 // БЕЗУСЛОВНЫЙ ПЕРЕХОД в ПРОГРАММЕ
                 //
 
-                address += command;
+                _address += command;
                 //address += (byte)(command - 31);
                 //address += (byte)(command - 31 + 6);
             }
 
-            address = (byte)(address % Const.BOT_PROGRAM_SIZE);
+            _address = (byte)(address % ESetting.BOT_PROGRAM_SIZE);
 
             return step;
         }
 
 
-
         public override string ToString()
-{
-    string desc = base.ToString();
-
-    //desc += " - x: " + point.x + "; y: " + point.y + "; cx: " + course.x + "; cy: " + course.y;
-    //desc += " - x: " + point.x + "; y: " + point.y + "; ci: " + courseOrientation.ToString();
-    desc += " - (" + point.x + "," + point.y + "," + courseOrientation.ToString() + ")";
-    desc += "; h:" + health;
-
-    desc += "; prog: ";
-    for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++)
-    {
-
-        if (i == address)
         {
-            desc += "[" + program[i] + "] ";
+            string desc = base.ToString();
+
+            desc += " calls: ";
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++) desc += " " + calls[i];
+
+            return desc;
         }
-        else
-        {
-            desc += program[i] + " ";
-        }
-    }
-
-    return desc;
-}
 
 
-public string ToStringMultiLine()
-{
-    string desc = "Bot";
-
-    desc += " - (" + point.x + "," + point.y + "," + courseOrientation.ToString() + ")";
-    desc += "; a: " + age + "; h:" + health;
-
-    desc += "\r\nprog: ";
-    for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++)
-    {
-
-        if (i == address)
-        {
-            desc += "[" + program[i].ToString("D3") + "] ";
-        }
-        else
-        {
-            desc += program[i].ToString("D3") + " ";
-        }
-    }
-
-    desc += "\r\ncmd:  ";
-    for (int i = 0; i < Const.BOT_PROGRAM_SIZE; i++)
-    {
-
-        if (i == address)
-        {
-            desc += "[" + cmd_calls[i].ToString("D3") + "] ";
-        }
-        else
-        {
-            desc += cmd_calls[i].ToString("D3") + " ";
-        }
-    }
-
-    return desc;
-}
-
-    } 
-        */
     }
 }

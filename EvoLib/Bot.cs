@@ -188,7 +188,7 @@ namespace EvoLib
 
                     if (targetCell.content == CellContentType.FOOD)
                     {
-                        health = (health + Const.BOT_HEALTH_FOOD) % (Const.BOT_HEALTH_MAX + 1);
+                        health = Math.Min(health + Const.BOT_HEALTH_FOOD, Const.BOT_HEALTH_MAX);
                         targetCell.Clear();
                         Grid.CurrentGrid.generation.CreateFoodToxin(1);
                     }

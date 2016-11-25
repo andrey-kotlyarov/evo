@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnStart = new System.Windows.Forms.Button();
-            this.txtReport = new System.Windows.Forms.TextBox();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnDebug = new System.Windows.Forms.Button();
             this.lblEventVia = new System.Windows.Forms.Label();
@@ -37,11 +36,21 @@
             this.lblDelay = new System.Windows.Forms.Label();
             this.cbDelay = new System.Windows.Forms.ComboBox();
             this.cbOneEvent = new System.Windows.Forms.CheckBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.slblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pbGrid = new System.Windows.Forms.PictureBox();
+            this.lblIter = new System.Windows.Forms.Label();
+            this.lblIterLabel = new System.Windows.Forms.Label();
+            this.lblGen = new System.Windows.Forms.Label();
+            this.lblGenLabel = new System.Windows.Forms.Label();
+            this.txtHistory = new System.Windows.Forms.TextBox();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(13, 103);
+            this.btnStart.Location = new System.Drawing.Point(939, 8);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 0;
@@ -49,18 +58,9 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // txtReport
-            // 
-            this.txtReport.Location = new System.Drawing.Point(181, 12);
-            this.txtReport.Multiline = true;
-            this.txtReport.Name = "txtReport";
-            this.txtReport.ReadOnly = true;
-            this.txtReport.Size = new System.Drawing.Size(537, 346);
-            this.txtReport.TabIndex = 1;
-            // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(13, 133);
+            this.btnPause.Location = new System.Drawing.Point(1020, 8);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 2;
@@ -70,7 +70,7 @@
             // 
             // btnDebug
             // 
-            this.btnDebug.Location = new System.Drawing.Point(13, 287);
+            this.btnDebug.Location = new System.Drawing.Point(1182, 655);
             this.btnDebug.Name = "btnDebug";
             this.btnDebug.Size = new System.Drawing.Size(75, 23);
             this.btnDebug.TabIndex = 3;
@@ -81,7 +81,7 @@
             // lblEventVia
             // 
             this.lblEventVia.AutoSize = true;
-            this.lblEventVia.Location = new System.Drawing.Point(13, 12);
+            this.lblEventVia.Location = new System.Drawing.Point(10, 13);
             this.lblEventVia.Name = "lblEventVia";
             this.lblEventVia.Size = new System.Drawing.Size(38, 13);
             this.lblEventVia.TabIndex = 4;
@@ -91,7 +91,7 @@
             // 
             this.cbEventVia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEventVia.FormattingEnabled = true;
-            this.cbEventVia.Location = new System.Drawing.Point(58, 13);
+            this.cbEventVia.Location = new System.Drawing.Point(54, 10);
             this.cbEventVia.Name = "cbEventVia";
             this.cbEventVia.Size = new System.Drawing.Size(121, 21);
             this.cbEventVia.TabIndex = 5;
@@ -100,7 +100,7 @@
             // lblDelay
             // 
             this.lblDelay.AutoSize = true;
-            this.lblDelay.Location = new System.Drawing.Point(14, 47);
+            this.lblDelay.Location = new System.Drawing.Point(735, 13);
             this.lblDelay.Name = "lblDelay";
             this.lblDelay.Size = new System.Drawing.Size(37, 13);
             this.lblDelay.TabIndex = 6;
@@ -110,27 +110,110 @@
             // 
             this.cbDelay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDelay.FormattingEnabled = true;
-            this.cbDelay.Location = new System.Drawing.Point(58, 47);
+            this.cbDelay.Location = new System.Drawing.Point(778, 10);
             this.cbDelay.Name = "cbDelay";
-            this.cbDelay.Size = new System.Drawing.Size(121, 21);
+            this.cbDelay.Size = new System.Drawing.Size(60, 21);
             this.cbDelay.TabIndex = 7;
             this.cbDelay.SelectedIndexChanged += new System.EventHandler(this.cbDelay_SelectedIndexChanged);
             // 
             // cbOneEvent
             // 
             this.cbOneEvent.AutoSize = true;
-            this.cbOneEvent.Location = new System.Drawing.Point(17, 80);
+            this.cbOneEvent.Location = new System.Drawing.Point(859, 12);
             this.cbOneEvent.Name = "cbOneEvent";
             this.cbOneEvent.Size = new System.Drawing.Size(74, 17);
             this.cbOneEvent.TabIndex = 8;
             this.cbOneEvent.Text = "one event";
             this.cbOneEvent.UseVisualStyleBackColor = true;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.slblStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 714);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1281, 22);
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // slblStatus
+            // 
+            this.slblStatus.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
+            this.slblStatus.Name = "slblStatus";
+            this.slblStatus.Size = new System.Drawing.Size(46, 17);
+            this.slblStatus.Text = "[status]";
+            // 
+            // pbGrid
+            // 
+            this.pbGrid.Location = new System.Drawing.Point(13, 37);
+            this.pbGrid.Name = "pbGrid";
+            this.pbGrid.Size = new System.Drawing.Size(1082, 578);
+            this.pbGrid.TabIndex = 10;
+            this.pbGrid.TabStop = false;
+            // 
+            // lblIter
+            // 
+            this.lblIter.AutoSize = true;
+            this.lblIter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblIter.Location = new System.Drawing.Point(1218, 11);
+            this.lblIter.Name = "lblIter";
+            this.lblIter.Size = new System.Drawing.Size(12, 16);
+            this.lblIter.TabIndex = 14;
+            this.lblIter.Text = "-";
+            // 
+            // lblIterLabel
+            // 
+            this.lblIterLabel.AutoSize = true;
+            this.lblIterLabel.Location = new System.Drawing.Point(1182, 13);
+            this.lblIterLabel.Name = "lblIterLabel";
+            this.lblIterLabel.Size = new System.Drawing.Size(35, 13);
+            this.lblIterLabel.TabIndex = 13;
+            this.lblIterLabel.Text = "ITER:";
+            // 
+            // lblGen
+            // 
+            this.lblGen.AutoSize = true;
+            this.lblGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblGen.Location = new System.Drawing.Point(1136, 11);
+            this.lblGen.Name = "lblGen";
+            this.lblGen.Size = new System.Drawing.Size(12, 16);
+            this.lblGen.TabIndex = 12;
+            this.lblGen.Text = "-";
+            // 
+            // lblGenLabel
+            // 
+            this.lblGenLabel.AutoSize = true;
+            this.lblGenLabel.Location = new System.Drawing.Point(1101, 13);
+            this.lblGenLabel.Name = "lblGenLabel";
+            this.lblGenLabel.Size = new System.Drawing.Size(33, 13);
+            this.lblGenLabel.TabIndex = 11;
+            this.lblGenLabel.Text = "GEN:";
+            // 
+            // txtHistory
+            // 
+            this.txtHistory.BackColor = System.Drawing.SystemColors.Info;
+            this.txtHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtHistory.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.txtHistory.Location = new System.Drawing.Point(1113, 74);
+            this.txtHistory.Multiline = true;
+            this.txtHistory.Name = "txtHistory";
+            this.txtHistory.ReadOnly = true;
+            this.txtHistory.Size = new System.Drawing.Size(143, 540);
+            this.txtHistory.TabIndex = 15;
+            // 
             // FormEvo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 370);
+            this.ClientSize = new System.Drawing.Size(1281, 736);
+            this.Controls.Add(this.txtHistory);
+            this.Controls.Add(this.lblIter);
+            this.Controls.Add(this.lblIterLabel);
+            this.Controls.Add(this.lblGen);
+            this.Controls.Add(this.lblGenLabel);
+            this.Controls.Add(this.pbGrid);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cbOneEvent);
             this.Controls.Add(this.cbDelay);
             this.Controls.Add(this.lblDelay);
@@ -138,11 +221,15 @@
             this.Controls.Add(this.lblEventVia);
             this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.btnPause);
-            this.Controls.Add(this.txtReport);
             this.Controls.Add(this.btnStart);
             this.Name = "FormEvo";
             this.Text = "Evolution v2.0";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormEvo_FormClosed);
             this.Load += new System.EventHandler(this.FormEvo_Load);
+            this.MouseEnter += new System.EventHandler(this.FormEvo_MouseEnter);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,7 +238,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TextBox txtReport;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnDebug;
         private System.Windows.Forms.Label lblEventVia;
@@ -159,6 +245,14 @@
         private System.Windows.Forms.Label lblDelay;
         private System.Windows.Forms.ComboBox cbDelay;
         private System.Windows.Forms.CheckBox cbOneEvent;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel slblStatus;
+        private System.Windows.Forms.PictureBox pbGrid;
+        private System.Windows.Forms.Label lblIter;
+        private System.Windows.Forms.Label lblIterLabel;
+        private System.Windows.Forms.Label lblGen;
+        private System.Windows.Forms.Label lblGenLabel;
+        private System.Windows.Forms.TextBox txtHistory;
     }
 }
 

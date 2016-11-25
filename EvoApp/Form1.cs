@@ -93,7 +93,7 @@ namespace EvoApp
                 task = Task<int>.Factory.StartNew(() => _worker.Work(token), token);
                 result = await task;
             }
-            catch (OperationCanceledException ocex)
+            catch (OperationCanceledException)
             {
                 //cancelled = true;
             }
