@@ -405,14 +405,17 @@ namespace Evo2App
 
 
 
-        private void evoEngine_OnIterationCompleted(int generation, int iteration)
+        private void evoEngine_OnIterationCompleted(int generation, int iteration, EResultIteration resultIteration)
         {
             this.InvokeEx(
                 () =>
                 {
                     if (cbOneEvent.Checked) btnPause_Click(null, null);
 
+                    lblGen.Text = generation.ToString();
                     lblIter.Text = iteration.ToString();
+
+                    slblResultIteration.Text = resultIteration.ToShortString();
                     drawGrid();
 
                     //addReportMessage(String.Format("evoEngine_OnIterationCompleted G:{0} I:{1}", generation, iteration));
@@ -431,6 +434,8 @@ namespace Evo2App
                     lblGen.Text = generation.ToString();
                     lblIter.Text = "0";
 
+                    slblResultIteration.Text = "";
+
                     //addReportMessage(String.Format("evoEngine_OnGenerationStarted G:{0}", generation));
                 }
             );
@@ -438,7 +443,7 @@ namespace Evo2App
             
         }
 
-        private void evoEngine_OnGenerationCompleted(int generation, int iteration)
+        private void evoEngine_OnGenerationCompleted(int generation, int iteration, EResultGeneration resultGeneration)
         {
             this.InvokeEx(
                 () =>
@@ -447,6 +452,8 @@ namespace Evo2App
 
                     lblGen.Text = generation.ToString();
                     lblIter.Text = iteration.ToString();
+
+
 
                     updateHistory();
                     //addReportMessage(String.Format("evoEngine_OnGenerationCompleted G:{0} I:{1}", generation, iteration));
@@ -464,15 +471,14 @@ namespace Evo2App
 
             for (int i = 0; i < Math.Min(32, eHistory.items.Count); i++)
             {
-                history += String.Format(
-                    "{0}{1} - {2}",
-                    (history.Length == 0 ? "   " : "\r\n   "),
-                    eHistory.items[i].generation,
-                    eHistory.items[i].iteration
-                );
+                history += (history.Length == 0 ? "" : "\r\n");
+                history += "  " + eHistory.items[i].ToShortString();
             }
             
             txtHistory.Text = history;
+
+            lblGenBest.Text = eHistory.bestItem.generation.ToString();
+            lblIterBest.Text = eHistory.bestItem.iteration.ToString();
 
 
         }

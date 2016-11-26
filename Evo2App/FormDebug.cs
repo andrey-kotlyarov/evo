@@ -46,7 +46,7 @@ namespace Evo2App
 
 
 
-        private void evoEngine_OnIterationCompleted(int generation, int iteration)
+        private void evoEngine_OnIterationCompleted(int generation, int iteration, EResultIteration resultIteration)
         {
             this.InvokeEx(
                 () =>
@@ -67,7 +67,7 @@ namespace Evo2App
             );
         }
 
-        private void evoEngine_OnGenerationCompleted(int generation, int iteration)
+        private void evoEngine_OnGenerationCompleted(int generation, int iteration, EResultGeneration resultGeneration)
         {
             this.InvokeEx(
                 () =>

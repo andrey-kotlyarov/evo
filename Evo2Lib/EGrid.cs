@@ -268,6 +268,35 @@ namespace Evo2Lib
             return new Tuple<int, int>(countF, countT);
         }
         
+        public int CalcDieByToxin()
+        {
+            int count = 0;
+
+            for (int i = 0; i<bots.Length; i++)
+            {
+                count += (bots[i].dieByToxin ? 1 : 0);
+            }
+
+            return count;
+        }
+
+        public float AverageHealth()
+        {
+            int sum = 0;
+            int count = 0;
+
+            for (int i = 0; i < bots.Length; i++)
+            {
+                if (bots[i].alive)
+                {
+                    count += 1;
+                    sum += bots[i].health;
+                }
+            }
+
+            return (float)(1F * sum / count);
+        }
+
 
     }
 }
