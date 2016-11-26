@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace Evo2Lib
 
         private bool _dieByToxin = false;
 
+        private string _checkSum = String.Empty;
+
 
 
         public MPoint point { get { return _point; } }
@@ -31,14 +34,51 @@ namespace Evo2Lib
         public int health { get { return _health; } }
 
 
-        private byte[] program { get { return _program; } }
-        private int[] calls { get { return _calls; } }
+        public byte[] program { get { return _program; } }
+        public int[] calls { get { return _calls; } }
         public int address { get { return _address; } }
 
         public bool dieByToxin { get { return _dieByToxin; } }
 
+        public string checkSum {
+            get
+            {
+                if (String.IsNullOrEmpty(_checkSum))
+                {
+                    _checkSum = calcCheckSum();
+                }
 
+                return _checkSum;
+            }
+        }
 
+        private string calcCheckSum()
+        {
+            /*
+            // step 1, calculate MD5 hash from input
+
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            
+            byte[] hash = md5.ComputeHash(program);
+
+            // step 2, convert byte array to hex string
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+            */
+
+            int cs = 0;
+            for (int i = 0; i < program.Length; i++) cs += program[i];
+
+            return cs.ToString("X2");
+
+        }
 
         public bool alive
         {
@@ -49,8 +89,68 @@ namespace Evo2Lib
         }
 
 
+        /*
+        public string checkSum
+        {
+            get
+            {
+                string pid = "";
+                for (int i = 0; i < program.Length; i++)
+                {
+                    pid += program[i].ToString("D2");
+                }
+
+                return pid;
+
+                
+                //int cs = 0;
+                //for (int i = 0; i < program.Length; i++) cs += program[i];
+
+                //return cs;
+                
+            }
+        }
+        */
+
+        /*
+        public string programid
+        {
+            get
+            {
+                string pid = "";
+                for (int i = 0; i < program.Length; i++)
+                {
+                    pid += program[i].ToString("D2");
+                }
+
+                return pid;
+            }
+        }
+
+        public void SetHistoryProgram(EProgram program)
+        {
+            _historyProgram = program;
+        }
+        */
+        /*
+        public string uid
+        {
+            get
+            {
+                string u = "g" + generation.ToString() + "|p";
+                for (int i = 0; i < program.Length; i++)
+                {
+                    u += program[i].ToString("D2");
+                }
+
+                return u;
+            }
+        }
+        */
+
         public EBot(ECell cell)
         {
+            //_genom = "";
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -70,6 +170,7 @@ namespace Evo2Lib
 
         public void DoRecovery(ECell cell)
         {
+            //_genom = "";
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -87,6 +188,7 @@ namespace Evo2Lib
 
         public void DoRecovery(ECell cell, EBot sampleBot)
         {
+            //_genom = "";
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -282,6 +384,9 @@ namespace Evo2Lib
 
             return step;
         }
+
+
+        
 
 
         public override string ToString()

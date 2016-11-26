@@ -12,6 +12,8 @@ namespace Evo2Lib
     {
         private List<EHistoryItem> _items;
         private EHistoryItem _bestItem;
+        
+
 
         public List<EHistoryItem> items { get { return _items; } }
         public EHistoryItem bestItem { get { return _bestItem; } }
@@ -42,8 +44,6 @@ namespace Evo2Lib
 
             return;
         }
-
-
-
+        
     }
 }

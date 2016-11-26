@@ -38,21 +38,24 @@
             this.cbOneEvent = new System.Windows.Forms.CheckBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.slblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slblResultIteration = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbGrid = new System.Windows.Forms.PictureBox();
             this.lblIter = new System.Windows.Forms.Label();
             this.lblIterLabel = new System.Windows.Forms.Label();
             this.lblGen = new System.Windows.Forms.Label();
             this.lblGenLabel = new System.Windows.Forms.Label();
             this.txtHistory = new System.Windows.Forms.TextBox();
-            this.slblResultIteration = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIterBest = new System.Windows.Forms.Label();
             this.lblIterBestLabel = new System.Windows.Forms.Label();
             this.lblGenBest = new System.Windows.Forms.Label();
             this.lblGenBestLabel = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
             this.lblBest = new System.Windows.Forms.Label();
+            this.slblResultGeneration = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pbResultGeneration = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbResultGeneration)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -137,7 +140,8 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.slblStatus,
-            this.slblResultIteration});
+            this.slblResultIteration,
+            this.slblResultGeneration});
             this.statusStrip1.Location = new System.Drawing.Point(0, 714);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1281, 22);
@@ -150,6 +154,13 @@
             this.slblStatus.Name = "slblStatus";
             this.slblStatus.Size = new System.Drawing.Size(46, 17);
             this.slblStatus.Text = "[status]";
+            // 
+            // slblResultIteration
+            // 
+            this.slblResultIteration.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
+            this.slblResultIteration.Name = "slblResultIteration";
+            this.slblResultIteration.Size = new System.Drawing.Size(91, 17);
+            this.slblResultIteration.Text = "[result iteration]";
             // 
             // pbGrid
             // 
@@ -209,13 +220,6 @@
             this.txtHistory.ReadOnly = true;
             this.txtHistory.Size = new System.Drawing.Size(168, 540);
             this.txtHistory.TabIndex = 15;
-            // 
-            // slblResultIteration
-            // 
-            this.slblResultIteration.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
-            this.slblResultIteration.Name = "slblResultIteration";
-            this.slblResultIteration.Size = new System.Drawing.Size(91, 17);
-            this.slblResultIteration.Text = "[result iteration]";
             // 
             // lblIterBest
             // 
@@ -281,11 +285,27 @@
             this.lblBest.TabIndex = 21;
             this.lblBest.Text = "best";
             // 
+            // slblResultGeneration
+            // 
+            this.slblResultGeneration.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
+            this.slblResultGeneration.Name = "slblResultGeneration";
+            this.slblResultGeneration.Size = new System.Drawing.Size(104, 17);
+            this.slblResultGeneration.Text = "[result generation]";
+            // 
+            // pbResultGeneration
+            // 
+            this.pbResultGeneration.Location = new System.Drawing.Point(255, 623);
+            this.pbResultGeneration.Name = "pbResultGeneration";
+            this.pbResultGeneration.Size = new System.Drawing.Size(582, 81);
+            this.pbResultGeneration.TabIndex = 22;
+            this.pbResultGeneration.TabStop = false;
+            // 
             // FormEvo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1281, 736);
+            this.Controls.Add(this.pbResultGeneration);
             this.Controls.Add(this.lblBest);
             this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.lblIterBest);
@@ -315,6 +335,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbResultGeneration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,6 +366,8 @@
         private System.Windows.Forms.Label lblGenBestLabel;
         private System.Windows.Forms.Label lblCurrent;
         private System.Windows.Forms.Label lblBest;
+        private System.Windows.Forms.ToolStripStatusLabel slblResultGeneration;
+        private System.Windows.Forms.PictureBox pbResultGeneration;
     }
 }
 

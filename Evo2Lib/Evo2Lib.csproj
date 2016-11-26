@@ -48,6 +48,7 @@
     <Compile Include="EHistoryItem.cs" />
     <Compile Include="EResultGeneration.cs" />
     <Compile Include="EResultIteration.cs" />
+    <Compile Include="EResultGenerationBot.cs" />
     <Compile Include="ESetting.cs" />
     <Compile Include="Evo2Engine.cs" />
     <Compile Include="MOrientation.cs" />

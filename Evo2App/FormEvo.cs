@@ -23,6 +23,7 @@ namespace Evo2App
         private bool _firstlyShowGrid = false;
 
         private BufferedGraphics _pbGridBufferGraphics;
+        private BufferedGraphics _pbResultGenerationBufferGraphics;
 
         private FormDebug _formDebug;
         
@@ -36,6 +37,7 @@ namespace Evo2App
         private void FormEvo_Load(object sender, EventArgs e)
         {
             _pbGridBufferGraphics = BufferedGraphicsManager.Current.Allocate(pbGrid.CreateGraphics(), pbGrid.DisplayRectangle);
+            _pbResultGenerationBufferGraphics = BufferedGraphicsManager.Current.Allocate(pbResultGeneration.CreateGraphics(), pbResultGeneration.DisplayRectangle);
 
             _pause = true;
             btnStart.Enabled = _pause;
@@ -261,8 +263,6 @@ namespace Evo2App
             Brush brushWall = Brushes.Maroon;
             Brush brushEmpty = Brushes.LightGray;
             Brush brushBot = Brushes.Navy;
-            Brush brushBot0 = Brushes.LightSeaGreen;
-            Brush brushBot1 = Brushes.LightCyan;
             Brush brushFood = Brushes.Green;
             Brush brushToxin = Brushes.OrangeRed;
 
@@ -274,18 +274,10 @@ namespace Evo2App
 
             Graphics g = _pbGridBufferGraphics.Graphics;
 
-
-
-
+            
             g.Clear(colorGrid);
 
 
-
-
-
-
-
-            //int it = Grid.CurrentGrid.generation.iteration;
             ECell[,] cells = grid.cells;
 
             int size = 24;
@@ -321,27 +313,8 @@ namespace Evo2App
                     }
                     if (cells[x, y].type == ECellType.BOT)
                     {
-                        /*
-                        EBot bot = Grid.CurrentGrid.GetBot(cells[x, y]);
-
-                        if (bot.point == Grid.CurrentGrid.generation.bots[0].point)
-                        {
-                            g.FillRectangle(brushBot0, r);
-                        }
-                        else if (bot.point == Grid.CurrentGrid.generation.bots[1].point)
-                        {
-                            g.FillRectangle(brushBot1, r);
-                        }
-                        else
-                        {
-                            g.FillRectangle(brushBot, r);
-                        }
-
-
-
-                        g.DrawString(bot.health.ToString(), fontBot, brushFont, px + 1, py + 2);
-                        g.DrawString(bot.age.ToString(), fontBot2, brushFont2, px + 10, py + 12);
-                        */
+                        //
+                        //
                     }
                 }
             }
@@ -364,16 +337,69 @@ namespace Evo2App
                 }
 
             }
-
-
-
-
+            
             //_pbGridBufferGraphics.Render();
             _pbGridBufferGraphics.Render(pbGrid.CreateGraphics());
+
+            return;
         }
 
 
+        private void drawResultGeneration(EResultGeneration resultGeneration)
+        {
+            if (_evoEngine == null) return;
 
+
+            Color colorGrid = SystemColors.Control;
+            //Brush brushWall = Brushes.Maroon;
+            //Brush brushEmpty = Brushes.LightGray;
+            Brush brushBot = Brushes.Navy;
+            //Brush brushFood = Brushes.Green;
+            //Brush brushToxin = Brushes.OrangeRed;
+
+
+            Font fontBot = new Font(FontFamily.GenericSansSerif, 8.0F, FontStyle.Regular);
+            Brush brushFont = Brushes.Red;
+
+            Font fontBotH = new Font(FontFamily.GenericSansSerif, 10.0F, FontStyle.Regular);
+            Brush brushFontH = Brushes.White;
+
+            Font fontBotG = new Font(FontFamily.GenericSansSerif, 10.0F, FontStyle.Bold);
+            Brush brushFontG = Brushes.Yellow;
+
+            Graphics g = _pbResultGenerationBufferGraphics.Graphics;
+            g.Clear(colorGrid);
+            
+
+
+
+            int sizeX = 48;
+            int sizeY = 80;
+            int padding = 24;
+
+            for (int i = 0; i < resultGeneration.resultBots.Count; i++)
+            {
+                EResultGenerationBot resultBot = resultGeneration.resultBots[i];
+
+                int px = i * (sizeX + padding);
+                int py = 0;
+
+                Rectangle r = new Rectangle(px + 1, py + 1, sizeX - 2, sizeY - 2);
+
+                g.FillRectangle(brushBot, r);
+
+                g.DrawString(resultBot.generation.ToString(), fontBotG, brushFontG, px + 8, py + 8);
+                g.DrawString(resultBot.health.ToString(), fontBotH, brushFontH, px + 16, py + 56);
+
+                //g.DrawString("" + resultBot.program.index + " (" + resultBot.program.botCount + ")", fontBot, brushFont, px + 4, py + 32);
+                g.DrawString(resultBot.checkSum, fontBot, brushFont, px + 4, py + 32);
+            }
+            
+            //_pbResultGenerationBufferGraphics.Render();
+            _pbResultGenerationBufferGraphics.Render(pbResultGeneration.CreateGraphics());
+
+            return;
+        }
 
 
 
@@ -436,6 +462,7 @@ namespace Evo2App
 
                     slblResultIteration.Text = "";
 
+
                     //addReportMessage(String.Format("evoEngine_OnGenerationStarted G:{0}", generation));
                 }
             );
@@ -453,13 +480,14 @@ namespace Evo2App
                     lblGen.Text = generation.ToString();
                     lblIter.Text = iteration.ToString();
 
-
+                    slblResultGeneration.Text = resultGeneration.ToShortString();
+                    
+                    drawResultGeneration(resultGeneration);
 
                     updateHistory();
                     //addReportMessage(String.Format("evoEngine_OnGenerationCompleted G:{0} I:{1}", generation, iteration));
                 }
             );
-            
         }
 
         private void updateHistory()
@@ -479,8 +507,6 @@ namespace Evo2App
 
             lblGenBest.Text = eHistory.bestItem.generation.ToString();
             lblIterBest.Text = eHistory.bestItem.iteration.ToString();
-
-
         }
 
 

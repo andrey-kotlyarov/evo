@@ -85,6 +85,8 @@ namespace Evo2Lib
                 ECell cell = selectEmptyCell();
                 bots[i] = new EBot(cell);
             }
+
+            return;
         }
 
         private void recoveryBots()
@@ -128,6 +130,7 @@ namespace Evo2Lib
 
             return;
         }
+        
 
 
         private ECell selectEmptyCell()
