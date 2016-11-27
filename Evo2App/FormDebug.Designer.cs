@@ -32,6 +32,11 @@
             this.lblGen = new System.Windows.Forms.Label();
             this.lblIterLabel = new System.Windows.Forms.Label();
             this.lblIter = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.slblEvent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pbProgram = new System.Windows.Forms.PictureBox();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbProgram)).BeginInit();
             this.SuspendLayout();
             // 
             // lblGenLabel
@@ -70,18 +75,50 @@
             this.lblIter.TabIndex = 3;
             this.lblIter.Text = "-";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.slblEvent});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 770);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1546, 22);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // slblEvent
+            // 
+            this.slblEvent.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
+            this.slblEvent.Name = "slblEvent";
+            this.slblEvent.Size = new System.Drawing.Size(44, 17);
+            this.slblEvent.Text = "[event]";
+            // 
+            // pbProgram
+            // 
+            this.pbProgram.Location = new System.Drawing.Point(12, 29);
+            this.pbProgram.Name = "pbProgram";
+            this.pbProgram.Size = new System.Drawing.Size(1522, 722);
+            this.pbProgram.TabIndex = 5;
+            this.pbProgram.TabStop = false;
+            // 
             // FormDebug
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 335);
+            this.ClientSize = new System.Drawing.Size(1546, 792);
+            this.Controls.Add(this.pbProgram);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lblIter);
             this.Controls.Add(this.lblIterLabel);
             this.Controls.Add(this.lblGen);
             this.Controls.Add(this.lblGenLabel);
             this.Name = "FormDebug";
             this.Text = "Evolution Debug Info";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormDebug_FormClosed);
             this.Load += new System.EventHandler(this.FormDebug_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormDebug_Paint);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbProgram)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +130,8 @@
         private System.Windows.Forms.Label lblGen;
         private System.Windows.Forms.Label lblIterLabel;
         private System.Windows.Forms.Label lblIter;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel slblEvent;
+        private System.Windows.Forms.PictureBox pbProgram;
     }
 }

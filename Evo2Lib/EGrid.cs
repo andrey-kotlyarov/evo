@@ -19,6 +19,8 @@ namespace Evo2Lib
         private EHistory _history = new EHistory();
 
         private int[] _recoveryIndex = new int[ESetting.BOT_COUNT_MIN];
+        private int[] _generationIndex = new int[ESetting.BOT_COUNT_MAX];
+
 
 
 
@@ -84,7 +86,11 @@ namespace Evo2Lib
             {
                 ECell cell = selectEmptyCell();
                 bots[i] = new EBot(cell);
+
+                _generationIndex[i] = i;
             }
+
+            RecalculationBotTraceIndex();
 
             return;
         }
@@ -101,6 +107,8 @@ namespace Evo2Lib
                     bots[i].DoRecovery(selectEmptyCell());
 
                     _recoveryIndex[j] = i;
+                    //_generationIndex[j] = i;
+                    _generationIndex[i] = j;
                     j++;
                 }
             }
@@ -111,7 +119,10 @@ namespace Evo2Lib
                 if (!bots[i].alive)
                 {
                     bots[i].DoRecovery(selectEmptyCell(), bots[_recoveryIndex[k % ESetting.BOT_COUNT_MIN]]);
-                    
+                    _generationIndex[i] = ESetting.BOT_COUNT_MIN + k;
+                    //_generationIndex[ESetting.BOT_COUNT_MIN + k] = i;
+                    //bots[i].SetGenerationIndex(_generationIndex[i]);
+
                     if (k >= 0 && k < 8) { }
                     if (k >= 8 && k < 16) { bots[i].DoMutation(1); }
                     if (k >= 16 && k < 24) { }
@@ -127,10 +138,56 @@ namespace Evo2Lib
             {
                 bots[i].DoClearCalls();
             }
-
+            
             return;
         }
-        
+
+
+        public void RecalculationBotTraceIndex()
+        {
+            bool[] setTraceIndex = new bool[ESetting.BOT_COUNT_MIN];
+
+            for (int i = 0; i < setTraceIndex.Length; i++) setTraceIndex[i] = false;
+
+
+            for (int i = 0; i < bots.Length; i++)
+            {
+                int genIndex = _generationIndex[i];
+
+                if (!setTraceIndex[genIndex % 8] && (bots[genIndex].alive || (genIndex >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
+                {
+                    bots[genIndex].traceIndex = genIndex % 8;
+                    setTraceIndex[genIndex % 8] = true;
+                }
+                else
+                {
+                    bots[genIndex].traceIndex = -1;
+                }
+            }
+
+            /*
+            int[] traceIndex = new int[ESetting.BOT_COUNT_MIN];
+
+            for (int i = 0; i < traceIndex.Length; i++) traceIndex[i] = -1;
+
+            for (int j = 0; j < bots.Length; j++)
+            {
+                int i = _generationIndex[j];
+
+                if (traceIndex[i % 8] == -1 && (bots[i].alive || (j >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
+                {
+                    bots[i].traceIndex = i % 8;
+                    traceIndex[i % 8] = i % 8;
+                }
+                else
+                {
+                    bots[i].traceIndex = -1;
+                }
+            }
+            */
+            return;
+        }
+
 
 
         private ECell selectEmptyCell()
@@ -190,7 +247,7 @@ namespace Evo2Lib
                     return true;
                 }
             }
-            
+
             return false;
         }
 

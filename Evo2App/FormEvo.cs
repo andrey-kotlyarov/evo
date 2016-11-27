@@ -20,7 +20,7 @@ namespace Evo2App
         private Evo2Engine _evoEngine;
         private CancellationTokenSource _tokenSource;
         private bool _pause;
-        private bool _firstlyShowGrid = false;
+        //private bool _firstlyShowGrid = false;
 
         private BufferedGraphics _pbGridBufferGraphics;
         private BufferedGraphics _pbResultGenerationBufferGraphics;
@@ -94,7 +94,7 @@ namespace Evo2App
             evoEngine_Work();
             return;
         }
-
+        /*
         private void FormEvo_MouseEnter(object sender, EventArgs e)
         {
             // Первоначальное отображение ГРИДА
@@ -110,11 +110,17 @@ namespace Evo2App
                 }
             }
         }
-        
+        */
+        private void FormEvo_Paint(object sender, PaintEventArgs e)
+        {
+            drawGrid();
+            updateHistory();
+        }
 
         private void FormEvo_FormClosed(object sender, FormClosedEventArgs e)
         {
             _pbGridBufferGraphics.Dispose();
+            _pbResultGenerationBufferGraphics.Dispose();
         }
 
 
@@ -259,6 +265,10 @@ namespace Evo2App
 
             EGrid grid = _evoEngine.eGrid;
 
+            //var brush = new SolidColorBrush(Color.FromArgb(255, (byte)R, (byte)G, (byte)B));
+            //Brush bb = new SolidBrush(Color.Red);
+
+
             Color colorGrid = Color.DarkGray;
             Brush brushWall = Brushes.Maroon;
             Brush brushEmpty = Brushes.LightGray;
@@ -271,6 +281,9 @@ namespace Evo2App
 
             Font fontBot2 = new Font(FontFamily.GenericSansSerif, 5.0F, FontStyle.Bold);
             Brush brushFont2 = Brushes.Yellow;
+
+            Font fontBot3 = new Font(FontFamily.GenericSansSerif, 7.0F, FontStyle.Bold);
+            Brush brushFont3 = Brushes.Yellow;
 
             Graphics g = _pbGridBufferGraphics.Graphics;
 
@@ -329,11 +342,30 @@ namespace Evo2App
                     int px = bot.point.x * size + 1;
                     int py = bot.point.y * size + 1;
 
+
+                    if (bot.traceIndex >= 0)
+                    {
+                        Brush bTrace = new SolidBrush(ESetting.TRACE_COLOR[bot.traceIndex]);
+                        Rectangle rTrace = new Rectangle(px - 2, py - 2, size + 4, size + 4);
+                        g.FillRectangle(bTrace, rTrace);
+                    }
+
+
                     Rectangle r = new Rectangle(px + 1, py + 1, size - 2, size - 2);
                     g.FillRectangle(brushBot, r);
 
+                    
+
+
                     g.DrawString(bot.health.ToString(), fontBot, brushFont, px + 1, py + 2);
                     g.DrawString(bot.generation.ToString(), fontBot2, brushFont2, px + 10, py + 12);
+
+                    /*
+                    if (bot.traceIndex != -1)
+                    {
+                        g.DrawString(bot.traceIndex.ToString(), fontBot3, brushFont3, px + 6, py + 10);
+                    }
+                    */
                 }
 
             }
@@ -351,12 +383,8 @@ namespace Evo2App
 
 
             Color colorGrid = SystemColors.Control;
-            //Brush brushWall = Brushes.Maroon;
-            //Brush brushEmpty = Brushes.LightGray;
             Brush brushBot = Brushes.Navy;
-            //Brush brushFood = Brushes.Green;
-            //Brush brushToxin = Brushes.OrangeRed;
-
+            
 
             Font fontBot = new Font(FontFamily.GenericSansSerif, 8.0F, FontStyle.Regular);
             Brush brushFont = Brushes.Red;
@@ -381,8 +409,17 @@ namespace Evo2App
             {
                 EResultGenerationBot resultBot = resultGeneration.resultBots[i];
 
-                int px = i * (sizeX + padding);
-                int py = 0;
+                int px = 3 + i * (sizeX + padding);
+                int py = 3;
+
+
+                if (i < ESetting.BOT_COUNT_MIN)
+                {
+                    Brush bTrace = new SolidBrush(ESetting.TRACE_COLOR[i]);
+                    Rectangle rTrace = new Rectangle(px - 3, py - 3, sizeX + 6, sizeY + 6);
+                    g.FillRectangle(bTrace, rTrace);
+                }
+
 
                 Rectangle r = new Rectangle(px + 1, py + 1, sizeX - 2, sizeY - 2);
 
@@ -492,6 +529,8 @@ namespace Evo2App
 
         private void updateHistory()
         {
+            if (_evoEngine == null) return;
+
             EHistory eHistory = _evoEngine.eGrid.history;
 
 
@@ -507,7 +546,11 @@ namespace Evo2App
 
             lblGenBest.Text = eHistory.bestItem.generation.ToString();
             lblIterBest.Text = eHistory.bestItem.iteration.ToString();
+
+            return;
         }
+
+        
 
 
 

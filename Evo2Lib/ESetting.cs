@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Drawing;
 
 
 namespace Evo2Lib
@@ -70,6 +71,9 @@ C_GREEN= MIND_SIZE+6 // цвет
 
 
         public static MPoint[] ORIENTATIONS = new MPoint[Enum.GetValues(typeof(MOrientation)).Length];
+        public static Color[] TRACE_COLOR = new Color[BOT_COUNT_MIN];
+
+        public static Color[] GRAY_COLOR = new Color[256];
 
 
 
@@ -83,6 +87,22 @@ C_GREEN= MIND_SIZE+6 // цвет
             ORIENTATIONS[(int)MOrientation.BOTTOM_LEFT] = new MPoint(-1, 1);
             ORIENTATIONS[(int)MOrientation.LEFT] = new MPoint(-1, 0);
             ORIENTATIONS[(int)MOrientation.TOP_LEFT] = new MPoint(-1, -1);
+
+            TRACE_COLOR[0] = Color.Gold;
+            TRACE_COLOR[1] = Color.Coral;
+            TRACE_COLOR[2] = Color.Firebrick;
+            TRACE_COLOR[3] = Color.GreenYellow;
+            TRACE_COLOR[4] = Color.DeepSkyBlue;
+            TRACE_COLOR[5] = Color.SaddleBrown;
+            TRACE_COLOR[6] = Color.SeaGreen;
+            TRACE_COLOR[7] = Color.Purple;
+
+
+            for (int i = 0; i < 256; i++)
+            {
+                GRAY_COLOR[i] = Color.FromArgb(255, 255 - i, 255 - i, 255 - i);
+            }
+
 
             return;
         }

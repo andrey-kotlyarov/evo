@@ -39,6 +39,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.slblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.slblResultIteration = new System.Windows.Forms.ToolStripStatusLabel();
+            this.slblResultGeneration = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbGrid = new System.Windows.Forms.PictureBox();
             this.lblIter = new System.Windows.Forms.Label();
             this.lblIterLabel = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this.lblGenBestLabel = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
             this.lblBest = new System.Windows.Forms.Label();
-            this.slblResultGeneration = new System.Windows.Forms.ToolStripStatusLabel();
             this.pbResultGeneration = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
@@ -142,7 +142,7 @@
             this.slblStatus,
             this.slblResultIteration,
             this.slblResultGeneration});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 714);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 722);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1281, 22);
             this.statusStrip1.TabIndex = 9;
@@ -161,6 +161,13 @@
             this.slblResultIteration.Name = "slblResultIteration";
             this.slblResultIteration.Size = new System.Drawing.Size(91, 17);
             this.slblResultIteration.Text = "[result iteration]";
+            // 
+            // slblResultGeneration
+            // 
+            this.slblResultGeneration.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
+            this.slblResultGeneration.Name = "slblResultGeneration";
+            this.slblResultGeneration.Size = new System.Drawing.Size(104, 17);
+            this.slblResultGeneration.Text = "[result generation]";
             // 
             // pbGrid
             // 
@@ -285,18 +292,11 @@
             this.lblBest.TabIndex = 21;
             this.lblBest.Text = "best";
             // 
-            // slblResultGeneration
-            // 
-            this.slblResultGeneration.Margin = new System.Windows.Forms.Padding(8, 3, 8, 2);
-            this.slblResultGeneration.Name = "slblResultGeneration";
-            this.slblResultGeneration.Size = new System.Drawing.Size(104, 17);
-            this.slblResultGeneration.Text = "[result generation]";
-            // 
             // pbResultGeneration
             // 
             this.pbResultGeneration.Location = new System.Drawing.Point(255, 623);
             this.pbResultGeneration.Name = "pbResultGeneration";
-            this.pbResultGeneration.Size = new System.Drawing.Size(582, 81);
+            this.pbResultGeneration.Size = new System.Drawing.Size(582, 86);
             this.pbResultGeneration.TabIndex = 22;
             this.pbResultGeneration.TabStop = false;
             // 
@@ -304,7 +304,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1281, 736);
+            this.ClientSize = new System.Drawing.Size(1281, 744);
             this.Controls.Add(this.pbResultGeneration);
             this.Controls.Add(this.lblBest);
             this.Controls.Add(this.lblCurrent);
@@ -331,7 +331,7 @@
             this.Text = "Evolution v2.0";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormEvo_FormClosed);
             this.Load += new System.EventHandler(this.FormEvo_Load);
-            this.MouseEnter += new System.EventHandler(this.FormEvo_MouseEnter);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormEvo_Paint);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).EndInit();

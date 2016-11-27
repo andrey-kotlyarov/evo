@@ -11,6 +11,7 @@ namespace Evo2Lib
 {
     public class EBot
     {
+        private int _traceIndex;
         private MPoint _point;
         private MOrientation _course;
 
@@ -27,6 +28,7 @@ namespace Evo2Lib
 
 
 
+        public int traceIndex { get { return _traceIndex; } set { _traceIndex = value; } }
         public MPoint point { get { return _point; } }
         public MOrientation course { get { return _course; } }
 
@@ -77,8 +79,16 @@ namespace Evo2Lib
             for (int i = 0; i < program.Length; i++) cs += program[i];
 
             return cs.ToString("X2");
-
         }
+
+
+        //public void SetGenerationIndex(int gIndex)
+        //{
+        //    _generationIndex = gIndex;
+        //}
+
+
+
 
         public bool alive
         {

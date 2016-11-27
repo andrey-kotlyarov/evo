@@ -54,7 +54,11 @@ namespace Evo2Lib
                 
                 if (_eGrid.iteration == 0 && needEventForGeneration)
                 {
-                    if (OnGeneration_Started != null) OnGeneration_Started(_eGrid.generation);
+                    if (OnGeneration_Started != null)
+                    {
+                        _eGrid.RecalculationBotTraceIndex();
+                        OnGeneration_Started(_eGrid.generation);
+                    }
                     needDelay = true;
                 }
 
@@ -62,7 +66,11 @@ namespace Evo2Lib
                 bool evo_completed = false;
                 if (needEventForIteration)
                 {
-                    if (OnIteration_Completed != null) OnIteration_Completed(_eGrid.generation, _eGrid.iteration, new EResultIteration(_eGrid));
+                    if (OnIteration_Completed != null)
+                    {
+                        _eGrid.RecalculationBotTraceIndex();
+                        OnIteration_Completed(_eGrid.generation, _eGrid.iteration, new EResultIteration(_eGrid));
+                    }
                     needDelay = true;
                 }
 
@@ -71,7 +79,11 @@ namespace Evo2Lib
                 {
                     if (needEventForGeneration)
                     {
-                        if (OnGeneration_Completed != null) OnGeneration_Completed(_eGrid.generation, _eGrid.iteration, new EResultGeneration(_eGrid));
+                        if (OnGeneration_Completed != null)
+                        {
+                            _eGrid.RecalculationBotTraceIndex();
+                            OnGeneration_Completed(_eGrid.generation, _eGrid.iteration, new EResultGeneration(_eGrid));
+                        }
                         needDelay = true;
                     }
 
