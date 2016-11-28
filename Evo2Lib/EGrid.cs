@@ -20,7 +20,7 @@ namespace Evo2Lib
 
         private int[] _recoveryIndex = new int[ESetting.BOT_COUNT_MIN];
         private int[] _generationIndex = new int[ESetting.BOT_COUNT_MAX];
-
+        private int[] _traceIndex = new int[ESetting.BOT_COUNT_MIN];
 
 
 
@@ -97,7 +97,6 @@ namespace Evo2Lib
 
         private void recoveryBots()
         {
-            
             int j = 0;
             //for (int i = 0; i < ESetting.BOT_COUNT_MAX; i++)
             for (int i = 0; i < bots.Length; i++)
@@ -119,9 +118,9 @@ namespace Evo2Lib
                 if (!bots[i].alive)
                 {
                     bots[i].DoRecovery(selectEmptyCell(), bots[_recoveryIndex[k % ESetting.BOT_COUNT_MIN]]);
-                    _generationIndex[i] = ESetting.BOT_COUNT_MIN + k;
                     //_generationIndex[ESetting.BOT_COUNT_MIN + k] = i;
-                    //bots[i].SetGenerationIndex(_generationIndex[i]);
+                    _generationIndex[i] = ESetting.BOT_COUNT_MIN + k;
+                    
 
                     if (k >= 0 && k < 8) { }
                     if (k >= 8 && k < 16) { bots[i].DoMutation(1); }
@@ -145,46 +144,46 @@ namespace Evo2Lib
 
         public void RecalculationBotTraceIndex()
         {
-            bool[] setTraceIndex = new bool[ESetting.BOT_COUNT_MIN];
-
-            for (int i = 0; i < setTraceIndex.Length; i++) setTraceIndex[i] = false;
-
-
+            for (int i = 0; i < _traceIndex.Length; i++) _traceIndex[i] = -1;
+            
             for (int i = 0; i < bots.Length; i++)
             {
+                EBot bot = null;
+                for (int j = 0; j < _generationIndex.Length; j++)
+                {
+                    if (_generationIndex[j] == i)
+                    {
+                        bot = bots[j];
+                        break;
+                    }
+                }
+
+
+                if (_traceIndex[i % 8] == -1 && (bot.alive || (i >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
+                {
+                    bot.traceIndex = i % 8;
+                    _traceIndex[i % 8] = i % 8;
+                }
+                else
+                {
+                    bot.traceIndex = -1;
+                }
+
+                /*
                 int genIndex = _generationIndex[i];
 
-                if (!setTraceIndex[genIndex % 8] && (bots[genIndex].alive || (genIndex >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
+                if (_traceIndex[genIndex % 8] == -1 && (bots[genIndex].alive || (genIndex >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
                 {
                     bots[genIndex].traceIndex = genIndex % 8;
-                    setTraceIndex[genIndex % 8] = true;
+                    _traceIndex[genIndex % 8] = genIndex % 8;
                 }
                 else
                 {
                     bots[genIndex].traceIndex = -1;
                 }
+                */
             }
-
-            /*
-            int[] traceIndex = new int[ESetting.BOT_COUNT_MIN];
-
-            for (int i = 0; i < traceIndex.Length; i++) traceIndex[i] = -1;
-
-            for (int j = 0; j < bots.Length; j++)
-            {
-                int i = _generationIndex[j];
-
-                if (traceIndex[i % 8] == -1 && (bots[i].alive || (j >= ESetting.BOT_COUNT_MAX - ESetting.BOT_COUNT_MIN)))
-                {
-                    bots[i].traceIndex = i % 8;
-                    traceIndex[i % 8] = i % 8;
-                }
-                else
-                {
-                    bots[i].traceIndex = -1;
-                }
-            }
-            */
+            
             return;
         }
 

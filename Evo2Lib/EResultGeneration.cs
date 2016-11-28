@@ -27,7 +27,7 @@ namespace Evo2Lib
                     resultBots.Add(new EResultGenerationBot(bot));
                 }
             }
-
+            /*
             resultBots.Sort(
                 delegate (EResultGenerationBot b1, EResultGenerationBot b2)
                 {
@@ -38,6 +38,7 @@ namespace Evo2Lib
                     return compare;
                 }
             );
+            */
         }
 
 

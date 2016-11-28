@@ -37,8 +37,8 @@ namespace Evo2App
                 _evoEngine.OnIteration_Completed += evoEngine_OnIterationCompleted;
 
 
-                lblGen.Text = _evoEngine.eGrid.generation.ToString();
-                lblIter.Text = _evoEngine.eGrid.iteration.ToString();
+                slblEvent.Text = "On Load";
+                slblGenIter.Text = String.Format("GEN:{0} ITER:{1}", _evoEngine.eGrid.generation, _evoEngine.eGrid.iteration);
             }
         }
 
@@ -64,6 +64,7 @@ namespace Evo2App
                 Graphics g = _pbProgramBufferGraphics.Graphics;
 
                 g.Clear(SystemColors.Control);
+                //g.Clear(Color.Red);
 
 
 
@@ -82,13 +83,15 @@ namespace Evo2App
 
                 
 
-                int size = 320;
-                int padding = 80;
+                int size = 280;
+                int paddingX = 40;
+                int paddingY = 64;
+
 
                 for (int i = 0; i < 8; i++)
                 {
-                    int x = 1 + (i % 4) * (size + padding);
-                    int y = 1 + (i / 4) * (size + padding);
+                    int x = 1 + (i % 4) * (size + paddingX);
+                    int y = 1 + paddingY + (i / 4) * (size + paddingY);
 
 
 
@@ -128,6 +131,14 @@ namespace Evo2App
             Font fontBotC = new Font(FontFamily.GenericSansSerif, 4.0F, FontStyle.Regular);
 
 
+            Font fontBotTitle = new Font(FontFamily.GenericSansSerif, 9.0F, FontStyle.Bold);
+            Font fontBotCoord = new Font(FontFamily.GenericSansSerif, 8.0F, FontStyle.Regular);
+
+            Brush brushFontTitle = Brushes.Gray;
+            Brush brushFontCoord = Brushes.Black;
+
+
+
             Brush brushFontW = Brushes.White;
             Brush brushFontB = Brushes.Black;
 
@@ -144,16 +155,23 @@ namespace Evo2App
             int cx;
             int cy;
 
+
+            int calls_max = 0;
             for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++)
             {
+                if (bot.calls[i] > calls_max) calls_max = bot.calls[i];
+            }
 
-
+            for (int i = 0; i < ESetting.BOT_PROGRAM_SIZE; i++)
+            {
                 int calls = bot.calls[i];
 
+
                 int callIndex = 0;
+
                 if (bot.calls[i] > 0)
                 {
-                    callIndex = Math.Min(255, 20 + 128 * calls / iteration);
+                    callIndex = 25 + 205 * bot.calls[i] / calls_max;
                 }
 
 
@@ -177,8 +195,19 @@ namespace Evo2App
                 g.DrawString(bot.program[i].ToString(), fontBot, brushFontW, cx + csize / 4, cy + csize / 3);
                 g.DrawString(bot.program[i].ToString(), fontBotP, (callIndex > 127 ? brushFontW : brushFontB), cx + 3, cy + 5);
 
-                g.DrawString(bot.calls[i].ToString(), fontBotC, (callIndex > 127 ? brushFontW : brushFontB), cx + 3, cy + 29);
+                g.DrawString(bot.calls[i].ToString(), fontBotC, (callIndex > 127 ? brushFontW : brushFontB), cx + 3, cy + 25);
             }
+
+
+            cx = x + 2;
+            cy = y - 48;
+            string title = String.Format("CS: {0}; G: {1}; H: {2}", bot.checkSum.Substring(0, 4), bot.generation, bot.health);
+            g.DrawString(title, fontBotTitle, brushFontTitle, cx, cy);
+
+            cx = x + 2;
+            cy = y - 28;
+            string coord = String.Format("(x,y) = ({0},{1}); course = {2}", bot.point.x, bot.point.y, bot.course.ToString());
+            g.DrawString(coord, fontBotCoord, brushFontCoord, cx, cy);
 
             return;
         }
@@ -192,10 +221,9 @@ namespace Evo2App
             this.InvokeEx(
                 () =>
                 {
-                    lblGen.Text = generation.ToString();
-                    lblIter.Text = iteration.ToString();
-
                     slblEvent.Text = "On Iteration Completed";
+                    slblGenIter.Text = String.Format("GEN:{0}        ITER:{1}", generation, iteration);
+                    
                     drawPrograms();
                 }
             );
@@ -206,10 +234,9 @@ namespace Evo2App
             this.InvokeEx(
                 () =>
                 {
-                    lblGen.Text = generation.ToString();
-                    lblIter.Text = "0";
-
                     slblEvent.Text = "On Generation Started";
+                    slblGenIter.Text = String.Format("GEN:{0}        ITER:{1}", generation, "0");
+
                     drawPrograms();
                 }
             );
@@ -220,10 +247,9 @@ namespace Evo2App
             this.InvokeEx(
                 () =>
                 {
-                    lblGen.Text = generation.ToString();
-                    lblIter.Text = iteration.ToString();
-
                     slblEvent.Text = "On Generation Completed";
+                    slblGenIter.Text = String.Format("GEN:{0}        ITER:{1}", generation, iteration);
+                    
                     drawPrograms();
                 }
             );

@@ -56,7 +56,7 @@ namespace Evo2Lib
 
         private string calcCheckSum()
         {
-            /*
+            /**/
             // step 1, calculate MD5 hash from input
 
             MD5 md5 = System.Security.Cryptography.MD5.Create();
@@ -73,12 +73,14 @@ namespace Evo2Lib
             }
 
             return sb.ToString();
-            */
+            /**/
 
+            /*
             int cs = 0;
             for (int i = 0; i < program.Length; i++) cs += program[i];
 
             return cs.ToString("X2");
+            */
         }
 
 
@@ -161,6 +163,7 @@ namespace Evo2Lib
         public EBot(ECell cell)
         {
             //_genom = "";
+            _checkSum = String.Empty;
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -181,6 +184,7 @@ namespace Evo2Lib
         public void DoRecovery(ECell cell)
         {
             //_genom = "";
+            _checkSum = String.Empty;
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -199,6 +203,7 @@ namespace Evo2Lib
         public void DoRecovery(ECell cell, EBot sampleBot)
         {
             //_genom = "";
+            _checkSum = String.Empty;
             _point = cell.point;
 
             _course = (MOrientation)MRandom.Next(Enum.GetValues(typeof(MOrientation)).Length);
@@ -216,6 +221,7 @@ namespace Evo2Lib
 
         public void DoMutation(int count)
         {
+            _checkSum = String.Empty;
             for (int i = 0; i < count; i++)
             {
                 int attempt = 0;

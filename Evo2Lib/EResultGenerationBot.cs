@@ -18,7 +18,7 @@ namespace Evo2Lib
         {
             generation = bot.generation;
             health = bot.health;
-            checkSum = bot.checkSum;
+            checkSum = bot.checkSum.Substring(0, 4);
         }
     }
 }
