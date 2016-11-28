@@ -41,6 +41,8 @@ namespace Evo2Lib
 
         public EGrid Work(CancellationToken token)
         {
+            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+
             while (true)
             {
                 token.ThrowIfCancellationRequested();
